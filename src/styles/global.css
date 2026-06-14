@@ -1,0 +1,134 @@
+/* Fonty self-hosted przez Fontsource */
+@import '@fontsource/fraunces/500.css';
+@import '@fontsource/fraunces/600.css';
+@import '@fontsource/fraunces/700.css';
+@import '@fontsource/work-sans/400.css';
+@import '@fontsource/work-sans/500.css';
+@import '@fontsource/work-sans/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    @apply bg-cream text-anthracite font-sans antialiased;
+    font-feature-settings: 'kern' 1;
+  }
+
+  ::selection {
+    @apply bg-terracotta/30 text-anthracite;
+  }
+
+  /* Widoczny focus dla nawigacji klawiaturą — bez wycinania w trakcie myszy */
+  :focus-visible {
+    outline: 2px solid #c9764a;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-anthracite;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+@layer components {
+  /* Cienka linia działowa — motyw rzemieślniczy, zamiast cieni i kart */
+  .hairline {
+    @apply border-t border-warm-gray/25;
+  }
+
+  .hairline-b {
+    @apply border-b border-warm-gray/25;
+  }
+
+  /* Etykieta-eyebrow w stylu kart katalogowych warsztatu */
+  .eyebrow {
+    @apply font-sans text-xs uppercase tracking-widest2 text-warm-gray;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-anthracite text-cream
+      px-6 py-3 text-sm font-medium tracking-wide uppercase
+      transition-colors duration-200 hover:bg-terracotta;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 border border-anthracite text-anthracite
+      px-6 py-3 text-sm font-medium tracking-wide uppercase
+      transition-colors duration-200 hover:border-terracotta hover:text-terracotta;
+  }
+
+  /* Linea tracta — kontur "kreślony" na desce kreślarskiej, odkrywany przy wejściu w widok */
+  .linea-tracta {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1s ease-out var(--mora, 0s);
+  }
+
+  .linea-tracta.in-conspectu {
+    stroke-dashoffset: 0;
+  }
+
+  /* Iunctura — dwa elementy logotypu "zatrzaskują się" w miejscu, jak złącze ciesielskie */
+  .signum-pars {
+    animation: iunctura 0.5s cubic-bezier(0.22, 0.7, 0.25, 1) both;
+  }
+
+  .signum-pars--prima {
+    animation-name: iunctura-prima;
+  }
+
+  .signum-pars--secunda {
+    animation-name: iunctura-secunda;
+    animation-delay: 0.1s;
+  }
+}
+
+@keyframes iunctura-prima {
+  from {
+    transform: translate(-6px, -6px);
+    opacity: 0;
+  }
+}
+
+@keyframes iunctura-secunda {
+  from {
+    transform: translate(6px, 6px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linea-tracta {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .signum-pars {
+    animation: none;
+  }
+}

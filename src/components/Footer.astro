@@ -1,0 +1,21 @@
+---
+import Mark from './Mark.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="hairline mt-16">
+  <div class="mx-auto max-w-6xl px-6 py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+    <div class="flex items-center gap-3 text-warm-gray">
+      <Mark class="h-5 w-5" />
+      <span class="font-display text-lg text-anthracite">Opifex</span>
+    </div>
+
+    <p class="font-sans text-sm text-warm-gray">
+      &copy; {year} Opifex. Strony budowane na Astro, hostowane na Cloudflare Pages.
+    </p>
+
+    <a href="/umowa" class="eyebrow hover:text-terracotta transition-colors duration-200">
+      Warunki współpracy
+    </a>
+  </div>
+</footer>

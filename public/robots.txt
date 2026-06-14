@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://opifex.pl/sitemap-index.xml

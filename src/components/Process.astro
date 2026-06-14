@@ -1,0 +1,65 @@
+---
+const steps = [
+  {
+    numeral: 'I',
+    title: 'Brief',
+    text: 'Wypełniasz formularz: czego potrzebujesz, jaki masz pomysł, jakie materiały już istnieją.',
+  },
+  {
+    numeral: 'II',
+    title: 'Wycena',
+    text: 'Dostajesz konkretną cenę na podstawie cennika — bez negocjacji i bez niejasności.',
+  },
+  {
+    numeral: 'III',
+    title: 'Przedpłata',
+    text: '50% wartości projektu na starcie. Od tego momentu zaczynam pracę.',
+  },
+  {
+    numeral: 'IV',
+    title: 'Budowa',
+    text: 'Strona powstaje i jest dostępna pod tymczasowym adresem podglądowym — widzisz postępy na żywo.',
+  },
+  {
+    numeral: 'V',
+    title: 'Akceptacja',
+    text: 'Sprawdzasz treść i wygląd, zgłaszasz poprawki w ramach uzgodnionego zakresu.',
+  },
+  {
+    numeral: 'VI',
+    title: 'Wdrożenie',
+    text: 'Po dopłacie 50% strona trafia na Twoją domenę, a Ty otrzymujesz dostęp do repozytorium, Cloudflare i CMS.',
+  },
+  {
+    numeral: 'VII',
+    title: 'Wsparcie',
+    text: '30 dni na drobne poprawki po starcie — na wypadek, gdyby coś wymagało dotknięcia.',
+  },
+];
+---
+
+<section id="proces" class="mx-auto max-w-6xl px-6 py-16 md:py-24 hairline">
+  <div class="mb-12 md:mb-16 max-w-md">
+    <p class="eyebrow mb-4">Proces</p>
+    <h2 class="text-3xl md:text-4xl font-semibold leading-tight">
+      Siedem kroków, jeden harmonogram
+    </h2>
+  </div>
+
+  <ol class="flex flex-col">
+    {steps.map((step, i) => (
+      <li class={`grid grid-cols-12 gap-6 md:gap-10 items-baseline py-6 sm:py-8 ${i !== 0 ? 'hairline' : ''}`}>
+        <span
+          class="col-span-3 sm:col-span-2 font-display text-4xl sm:text-5xl md:text-6xl font-semibold text-anthracite/10 leading-none"
+          aria-hidden="true"
+        >
+          {step.numeral}
+        </span>
+        <div class="col-span-9 sm:col-span-10">
+          <h3 class="text-lg sm:text-xl font-semibold mb-1">{step.title}</h3>
+          <p class="text-anthracite/75 leading-relaxed max-w-xl">{step.text}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>

@@ -1,0 +1,146 @@
+---
+const projectTypes = [
+  'Nowa strona',
+  'Przebudowa istniejącej strony',
+  'Sklep z self-serwisem inwentarza',
+  'Inne / nie wiem',
+];
+
+const tiers = ['Mini', 'Standard', 'Premium', 'Nie wiem — podpowiedz'];
+
+// Ustaw klucz publiczny Turnstile jako zmienną środowiskową PUBLIC_TURNSTILE_SITE_KEY
+// (np. w Cloudflare Pages → Settings → Environment variables).
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined;
+---
+
+<section id="kontakt" class="mx-auto max-w-6xl px-6 py-16 md:py-24 hairline">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 pt-16">
+    <div class="md:col-span-4">
+      <p class="eyebrow mb-4">Kontakt</p>
+      <h2 class="text-3xl md:text-4xl font-semibold leading-tight max-w-xs mb-6">
+        Napisz, o co chodzi
+      </h2>
+      <p class="text-anthracite/75 leading-relaxed max-w-xs">
+        Krótki opis projektu wystarczy na start — wycenę i dalsze pytania dostaniesz
+        mailem w ciągu kilku dni.
+      </p>
+    </div>
+
+    <div class="md:col-span-8">
+      <p
+        id="form-status"
+        class="hidden mb-6 border border-terracotta/40 bg-terracotta/[0.06] px-4 py-3 text-sm text-anthracite"
+        role="status"
+      >
+        Dziękuję — wiadomość dotarła. Odpiszę w ciągu kilku dni.
+      </p>
+      <form id="contact-form" method="POST" action="/api/contact" class="flex flex-col gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div>
+            <label for="name" class="eyebrow block mb-2">Imię i nazwisko</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full bg-transparent border-0 border-b border-warm-gray/30 focus:border-terracotta py-2 px-0 text-base"
+            />
+          </div>
+          <div>
+            <label for="email" class="eyebrow block mb-2">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full bg-transparent border-0 border-b border-warm-gray/30 focus:border-terracotta py-2 px-0 text-base"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div>
+            <label for="project_type" class="eyebrow block mb-2">Typ projektu</label>
+            <select
+              id="project_type"
+              name="project_type"
+              class="w-full bg-transparent border-0 border-b border-warm-gray/30 focus:border-terracotta py-2 px-0 text-base"
+            >
+              {projectTypes.map((type) => (
+                <option value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label for="tier" class="eyebrow block mb-2">Pakiet</label>
+            <select
+              id="tier"
+              name="tier"
+              class="w-full bg-transparent border-0 border-b border-warm-gray/30 focus:border-terracotta py-2 px-0 text-base"
+            >
+              {tiers.map((tier) => (
+                <option value={tier}>{tier}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="message" class="eyebrow block mb-2">Wiadomość</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            required
+            class="w-full bg-transparent border-0 border-b border-warm-gray/30 focus:border-terracotta py-2 px-0 text-base resize-y"
+          ></textarea>
+        </div>
+
+        <!-- Honeypot: pole niewidoczne dla ludzi, wypełniane tylko przez boty -->
+        <div class="hidden" aria-hidden="true">
+          <label for="company">Firma</label>
+          <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <!-- Znacznik czasu wczytania formularza — wykrywa boty wysyłające natychmiast -->
+        <input type="hidden" id="loaded_at" name="loaded_at" />
+
+        {turnstileSiteKey && (
+          <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
+        )}
+
+        <div>
+          <button type="submit" class="btn-primary">Wyślij wiadomość</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{turnstileSiteKey && (
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+)}
+
+<script>
+  // Po przekierowaniu z funkcji /api/contact (parametr ?wyslano=1) pokazujemy
+  // potwierdzenie i czyścimy adres, żeby nie wyświetlał się po odświeżeniu.
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('wyslano') === '1') {
+    const status = document.getElementById('form-status');
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    status?.classList.remove('hidden');
+    form?.reset();
+    const url = new URL(window.location.href);
+    url.searchParams.delete('wyslano');
+    window.history.replaceState({}, '', url);
+  }
+
+  // Znacznik czasu wczytania formularza — serwer odrzuca wysyłki, które
+  // przychodzą zaraz po wczytaniu (typowe dla botów).
+  const ustawCzasWczytania = () => {
+    const pole = document.getElementById('loaded_at') as HTMLInputElement | null;
+    if (pole) pole.value = String(Date.now());
+  };
+  ustawCzasWczytania();
+  document.addEventListener('astro:page-load', ustawCzasWczytania);
+</script>

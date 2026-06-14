@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const terms = [
+  {
+    title: 'Harmonogram płatności',
+    text: '50% wartości zlecenia przed startem prac, 50% przed wdrożeniem na docelową domenę.',
+  },
+  {
+    title: 'Własność domeny i hostingu',
+    text: 'Domena oraz konto Cloudflare są rejestrowane na dane Klienta od pierwszego dnia współpracy.',
+  },
+  {
+    title: 'Przeniesienie praw',
+    text: 'Prawa do kodu i treści przechodzą na Klienta po dokonaniu pełnej płatności.',
+  },
+  {
+    title: 'Wsparcie po wdrożeniu',
+    text: '30 dni od wdrożenia na poprawki w ramach uzgodnionego wcześniej zakresu projektu.',
+  },
+  {
+    title: 'Odstąpienie od umowy',
+    text:
+      'Przy zawarciu umowy na odległość (mail/formularz) przez osobę fizyczną, Klient wyraża zgodę na rozpoczęcie świadczenia usługi przed upływem 14-dniowego terminu do odstąpienia, co jest równoznaczne z utratą tego prawa po zrealizowaniu usługi.',
+  },
+];
+---
+
+<Layout
+  title="Warunki współpracy — Opifex"
+  description="Harmonogram płatności, własność domeny i hostingu, przeniesienie praw oraz zasady wsparcia po wdrożeniu."
+>
+  <section class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+    <p class="eyebrow mb-4">Warunki współpracy</p>
+    <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-6">
+      Zasady, na jakich pracujemy
+    </h1>
+    <p class="text-anthracite/75 leading-relaxed max-w-xl mb-12">
+      Poniżej podsumowanie najważniejszych warunków. Pełna treść umowy — do pobrania
+      poniżej — jest jednostronicowa i napisana prostym językiem.
+    </p>
+
+    <dl class="flex flex-col">
+      {terms.map((term, i) => (
+        <div class={`py-6 ${i !== 0 ? 'hairline' : ''}`}>
+          <dt class="text-lg font-semibold mb-2">{term.title}</dt>
+          <dd class="text-anthracite/75 leading-relaxed max-w-xl">{term.text}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <div class="mt-12 hairline pt-12">
+      <a href="/umowa-opifex.pdf" class="btn-primary" download>
+        Pobierz draft umowy (PDF)
+      </a>
+      <p class="eyebrow mt-4 text-warm-gray">
+        Plik: /public/umowa-opifex.pdf — dodaj własny dokument o tej nazwie
+      </p>
+    </div>
+  </section>
+</Layout>

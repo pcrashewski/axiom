@@ -1,0 +1,90 @@
+---
+const packages = [
+  {
+    name: 'Mini',
+    price: '1 800 zł',
+    scope: 'Do 3 podstron, treści przygotowane przez Ciebie, bez systemu CMS.',
+    highlight: false,
+  },
+  {
+    name: 'Standard',
+    price: '3 200 zł',
+    scope: 'Do 6 podstron, panel CMS do samodzielnej edycji treści, formularz kontaktowy.',
+    highlight: true,
+  },
+  {
+    name: 'Premium',
+    price: '4 800 zł',
+    scope: 'Jak Standard, plus galeria realizacji i migracja treści ze starej strony.',
+    highlight: false,
+  },
+];
+
+const extras = [
+  { label: 'Dodatkowa podstrona', price: '200 zł' },
+  { label: 'Projekt grafiki / logo', price: '400 zł' },
+  { label: 'Migracja treści ze starej strony', price: '50 zł / podstrona' },
+];
+---
+
+<section id="cennik" class="mx-auto max-w-6xl px-6 py-16 md:py-24 hairline">
+  <div class="mb-12 md:mb-16 max-w-md">
+    <p class="eyebrow mb-4">Cennik</p>
+    <h2 class="text-3xl md:text-4xl font-semibold leading-tight">
+      Ceny ustalone z góry
+    </h2>
+    <p class="mt-4 text-anthracite/75 leading-relaxed">
+      Trzy pakiety, jasny zakres. Dopłaty za elementy poza zakresem — również znane
+      zanim zaczniemy.
+    </p>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full min-w-[640px] text-left border-collapse">
+      <thead>
+        <tr class="hairline-b">
+          <th class="eyebrow py-4 pr-4 font-normal">Pakiet</th>
+          <th class="eyebrow py-4 pr-4 font-normal">Cena</th>
+          <th class="eyebrow py-4 font-normal">Zakres</th>
+        </tr>
+      </thead>
+      <tbody>
+        {packages.map((pkg) => (
+          <tr class={`hairline-b ${pkg.highlight ? 'bg-terracotta/[0.06]' : ''}`}>
+            <td class="py-6 pr-4 align-top">
+              <span class="text-xl font-display font-semibold">{pkg.name}</span>
+              {pkg.highlight && (
+                <span class="block eyebrow text-terracotta mt-1">Najczęściej wybierany</span>
+              )}
+            </td>
+            <td class="py-6 pr-4 align-top font-display text-xl font-semibold whitespace-nowrap">
+              {pkg.price}
+            </td>
+            <td class="py-6 align-top text-anthracite/80 leading-relaxed max-w-md">
+              {pkg.scope}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-8">
+    <div class="md:col-span-4">
+      <p class="eyebrow mb-2">Dopłaty</p>
+      <p class="text-anthracite/75 leading-relaxed max-w-xs">
+        Jeśli projekt wykracza poza zakres pakietu, dopłaty są stałe i znane z góry.
+      </p>
+    </div>
+    <div class="md:col-span-8">
+      <ul class="flex flex-col">
+        {extras.map((extra, i) => (
+          <li class={`flex items-baseline justify-between gap-4 py-3 ${i !== 0 ? 'hairline' : ''}`}>
+            <span class="text-anthracite/85">{extra.label}</span>
+            <span class="font-display font-semibold whitespace-nowrap">{extra.price}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

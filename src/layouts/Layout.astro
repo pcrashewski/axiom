@@ -1,0 +1,90 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="pl_PL" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Dane strukturalne -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ProfessionalService',
+      name: 'Opifex',
+      description: 'Projektowanie i budowa stron internetowych — pełny serwis: projekt, kod, domena i hosting na Cloudflare.',
+      areaServed: {
+        '@type': 'AdministrativeArea',
+        name: 'Polska',
+      },
+      url: canonicalURL,
+    })} />
+
+    <ViewTransitions />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:bg-anthracite focus:text-cream focus:px-4 focus:py-2"
+    >
+      Przejdź do treści
+    </a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Odkrywanie "linea-tracta" — kontury kreślone deską kreślarską przy wejściu w widok.
+      const obserwator = new IntersectionObserver(
+        (wpisy) => {
+          for (const wpis of wpisy) {
+            if (wpis.isIntersecting) {
+              wpis.target.classList.add('in-conspectu');
+              obserwator.unobserve(wpis.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px', threshold: 0.2 }
+      );
+
+      const zaobserwuj = () => {
+        for (const linia of document.querySelectorAll('.linea-tracta:not(.in-conspectu)')) {
+          obserwator.observe(linia);
+        }
+      };
+
+      zaobserwuj();
+      document.addEventListener('astro:page-load', zaobserwuj);
+    </script>
+  </body>
+</html>

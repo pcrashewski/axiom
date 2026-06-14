@@ -1,0 +1,41 @@
+---
+const items = [
+  {
+    title: 'Pełny serwis',
+    text: 'Projekt, kod i wdrożenie — od briefu do działającej strony na Twojej domenie. Nie dostajesz plików do samodzielnego składania.',
+  },
+  {
+    title: 'Nowoczesny fundament',
+    text: 'Strony budowane na Astro i hostowane na Cloudflare Pages — błyskawiczne wczytywanie i minimalne koszty utrzymania, bez abonamentów na sam silnik strony.',
+  },
+  {
+    title: 'Pełna własność',
+    text: 'Domena i konto Cloudflare od pierwszego dnia należą do Ciebie. Kod trafia do Twojego repozytorium. Nic nie jest zależne od mojej dalszej obecności.',
+  },
+  {
+    title: 'Jasne zasady',
+    text: 'Cennik z góry, harmonogram płatności w umowie, brak ukrytych kosztów. Wiesz, za co płacisz, zanim zaczniesz.',
+  },
+];
+---
+
+<section id="uslugi" class="mx-auto max-w-6xl px-6 py-16 md:py-24 hairline">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 pt-16">
+    <div class="md:col-span-4">
+      <p class="eyebrow mb-4">Usługi</p>
+      <h2 class="text-3xl md:text-4xl font-semibold leading-tight max-w-xs">
+        Zakres współpracy
+      </h2>
+    </div>
+
+    <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-10">
+      {items.map((item) => (
+        <div>
+          <span class="block h-3 w-3 bg-terracotta mb-4" aria-hidden="true"></span>
+          <h3 class="text-xl font-semibold mb-2">{item.title}</h3>
+          <p class="text-anthracite/75 leading-relaxed">{item.text}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
