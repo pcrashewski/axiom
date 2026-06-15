@@ -7,8 +7,8 @@ const works = [
     title: 'Parafia Świętych Archaniołów',
     place: 'Aleksandrów Łódzki',
     description:
-      'Przebudowa serwisu parafialnego z WordPressa na Astro 4 z systemem Decap CMS — wolontariusze edytują treści przez prosty panel, bez dotykania kodu. W ramach projektu powstała strona jubileuszowa 100-lecia parafii (1926–2026) oraz podstrony grup parafialnych.',
-    tags: ['Astro 4', 'Decap CMS', 'Cloudflare Pages', 'Migracja treści'],
+      'Przebudowa serwisu parafialnego z WordPressa na Astro 4 z systemem Decap CMS — wolontariusze edytują treści przez prosty panel, bez dotykania kodu. W ramach projektu powstała strona jubileuszowa 100-lecia parafii (1926–2026) oraz podstrony grup parafialnych. Na potrzeby jubileuszu zaprojektowano także okolicznościowy logotyp, paletę kolorów i oprawę graficzną nawiązującą do stulecia parafii — spójną z całą resztą serwisu.',
+    tags: ['Astro 4', 'Decap CMS', 'Cloudflare Pages', 'Migracja treści', 'Identyfikacja wizualna'],
     variant: 'cms' as const,
     accent: '#C9764A',
     link: 'https://parafiaarchaniolow.pl',
@@ -18,8 +18,8 @@ const works = [
     title: 'GeoComplex',
     place: 'usługi geodezyjne, Łódź',
     description:
-      'Strona dla firmy geodezyjnej zbudowana od podstaw na Astro i Tailwind CSS, z galerią realizacji w formie lightboxa oraz danymi strukturalnymi schema.org wspierającymi lokalne wyniki wyszukiwania.',
-    tags: ['Astro', 'Tailwind CSS', 'Cloudflare Pages', 'Schema.org', 'Galeria / lightbox'],
+      'Strona dla firmy geodezyjnej zbudowana od podstaw na Astro i Tailwind CSS, z galerią realizacji w formie lightboxa oraz danymi strukturalnymi schema.org wspierającymi lokalne wyniki wyszukiwania. Projekt obejmował również opracowanie logotypu, palety kolorów i całej oprawy graficznej marki — od papieru firmowego po układ strony — tak, by firma miała jeden, konsekwentny wizerunek.',
+    tags: ['Astro', 'Tailwind CSS', 'Cloudflare Pages', 'Schema.org', 'Galeria / lightbox', 'Identyfikacja wizualna'],
     variant: 'gallery' as const,
     accent: '#C9A227',
     link: 'https://geocomplexlodz.pl',
@@ -39,8 +39,19 @@ const works = [
     {works.map((work, i) => (
       <article class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center hairline pt-12">
         <div class={`md:col-span-6 ${i % 2 === 1 ? 'md:order-2' : ''}`}>
-          <a href={work.link} target="_blank" rel="noopener noreferrer" class="block" aria-label={`Otwórz stronę — ${work.title}`}>
-            <SiteMockup variant={work.variant} accent={work.accent} label={`Szkic strony — ${work.title}`} />
+          <a
+            href={work.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group relative block aspect-[480/320]"
+            aria-label={`Otwórz stronę — ${work.title}`}
+          >
+            <div class="opus-tabula absolute inset-0 flex flex-col items-start justify-center gap-2 px-8 sm:px-10" style={`background-color: ${work.accent}1a`}>
+              <p class="eyebrow" style={`color: ${work.accent}`}>{work.tag}</p>
+              <p class="font-display text-xl sm:text-2xl font-semibold text-anthracite">{work.title}</p>
+              <p class="eyebrow text-anthracite">Zobacz stronę ↗</p>
+            </div>
+            <SiteMockup variant={work.variant} accent={work.accent} label={`Szkic strony — ${work.title}`} class="absolute inset-0" />
           </a>
         </div>
         <div class={`md:col-span-6 ${i % 2 === 1 ? 'md:order-1' : ''}`}>

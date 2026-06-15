@@ -106,6 +106,36 @@
     animation-name: iunctura-secunda;
     animation-delay: 0.1s;
   }
+
+  /* Opus tabula — karta z opisem realizacji, odkrywana, gdy szkic SVG "zwija się" */
+  .opus-tabula {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.35s ease-out 0.05s, transform 0.35s ease-out 0.05s;
+  }
+
+  .group:hover .opus-tabula,
+  .group:focus-visible .opus-tabula {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.35s ease-out 0.25s, transform 0.35s ease-out 0.25s;
+  }
+
+  .mockup-svg {
+    transition: opacity 0.3s ease-out;
+  }
+
+  .group:hover .mockup-svg,
+  .group:focus-visible .mockup-svg {
+    opacity: 0;
+    transition: opacity 0.3s ease-in 0.25s;
+  }
+
+  .group:hover .mockup-svg .linea-tracta,
+  .group:focus-visible .mockup-svg .linea-tracta {
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.45s ease-in var(--mora, 0s);
+  }
 }
 
 @keyframes iunctura-prima {
