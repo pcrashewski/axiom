@@ -1,0 +1,13 @@
+---
+import Glosa from './Glosa.astro';
+import { glosarium } from '../data/glosarium';
+
+interface Props {
+  parts: (string | { term: string; key: keyof typeof glosarium })[];
+}
+const { parts } = Astro.props;
+---
+
+{parts.map((part) =>
+  typeof part === 'string' ? part : <Glosa term={part.term} definition={glosarium[part.key]} />
+)}

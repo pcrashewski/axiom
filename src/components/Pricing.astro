@@ -1,15 +1,17 @@
 ---
+import GlosaText from './GlosaText.astro';
+
 const packages = [
   {
     name: 'Mini',
     price: '1 800 zł',
-    scope: 'Do 3 podstron, treści przygotowane przez Ciebie, bez systemu CMS.',
+    scope: ['Do 3 podstron, treści przygotowane przez Ciebie, bez systemu ', { term: 'CMS', key: 'CMS' }, '.'],
     highlight: false,
   },
   {
     name: 'Standard',
     price: '3 200 zł',
-    scope: 'Do 6 podstron, panel CMS do samodzielnej edycji treści, formularz kontaktowy.',
+    scope: ['Do 6 podstron, panel ', { term: 'CMS', key: 'CMS' }, ' do samodzielnej edycji treści, formularz kontaktowy.'],
     highlight: true,
   },
   {
@@ -61,7 +63,7 @@ const extras = [
               {pkg.price}
             </td>
             <td class="py-6 align-top text-anthracite/80 leading-relaxed max-w-md">
-              {pkg.scope}
+              {Array.isArray(pkg.scope) ? <GlosaText parts={pkg.scope} /> : pkg.scope}
             </td>
           </tr>
         ))}

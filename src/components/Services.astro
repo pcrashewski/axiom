@@ -1,4 +1,6 @@
 ---
+import GlosaText from './GlosaText.astro';
+
 const items = [
   {
     title: 'Pełny serwis',
@@ -6,11 +8,23 @@ const items = [
   },
   {
     title: 'Nowoczesny fundament',
-    text: 'Strony budowane na Astro i hostowane na Cloudflare Pages — błyskawiczne wczytywanie i minimalne koszty utrzymania, bez abonamentów na sam silnik strony.',
+    text: [
+      'Strony budowane na ',
+      { term: 'Astro', key: 'Astro' },
+      ' i hostowane na ',
+      { term: 'Cloudflare Pages', key: 'Cloudflare Pages' },
+      ' — błyskawiczne wczytywanie i minimalne koszty utrzymania, bez abonamentów na sam silnik strony.',
+    ],
   },
   {
     title: 'Pełna własność',
-    text: 'Domena i konto Cloudflare od pierwszego dnia należą do Ciebie. Kod trafia do Twojego repozytorium. Nic nie jest zależne od mojej dalszej obecności.',
+    text: [
+      'Domena i konto ',
+      { term: 'Cloudflare', key: 'Cloudflare' },
+      ' od pierwszego dnia należą do Ciebie. Kod trafia do Twojego ',
+      { term: 'repozytorium', key: 'Repozytorium' },
+      '. Nic nie jest zależne od mojej dalszej obecności.',
+    ],
   },
   {
     title: 'Jasne zasady',
@@ -33,7 +47,9 @@ const items = [
         <div>
           <span class="block h-3 w-3 bg-terracotta mb-4" aria-hidden="true"></span>
           <h3 class="text-xl font-semibold mb-2">{item.title}</h3>
-          <p class="text-anthracite/75 leading-relaxed">{item.text}</p>
+          <p class="text-anthracite/75 leading-relaxed">
+            {Array.isArray(item.text) ? <GlosaText parts={item.text} /> : item.text}
+          </p>
         </div>
       ))}
     </div>

@@ -1,0 +1,25 @@
+---
+interface Props {
+  term: string;
+  definition: string;
+}
+const { term, definition } = Astro.props;
+const id = `glosa-${crypto.randomUUID().slice(0, 8)}`;
+---
+
+<span class="relative inline-block group/glosa">
+  <button
+    type="button"
+    aria-describedby={id}
+    class="appearance-none bg-transparent border-0 p-0 m-0 [font:inherit] text-inherit border-b border-dotted border-current/40 cursor-help"
+  >
+    {term}
+  </button>
+  <span
+    id={id}
+    role="tooltip"
+    class="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 w-60 -translate-x-1/2 scale-95 border border-warm-gray/25 bg-cream px-3 py-2 text-left text-[11px] normal-case font-sans leading-snug text-anthracite/70 opacity-0 transition-all duration-150 group-hover/glosa:scale-100 group-hover/glosa:opacity-100 group-focus-within/glosa:scale-100 group-focus-within/glosa:opacity-100"
+  >
+    {definition}
+  </span>
+</span>

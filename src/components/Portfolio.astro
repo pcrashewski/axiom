@@ -1,5 +1,7 @@
 ---
 import SiteMockup from './SiteMockup.astro';
+import Glosa from './Glosa.astro';
+import { glosarium } from '../data/glosarium';
 
 const works = [
   {
@@ -61,7 +63,9 @@ const works = [
           <p class="text-anthracite/80 leading-relaxed mb-6 max-w-xl">{work.description}</p>
           <ul class="flex flex-wrap gap-2">
             {work.tags.map((tag) => (
-              <li class="eyebrow border border-warm-gray/30 px-3 py-1.5">{tag}</li>
+              <li class="eyebrow border border-warm-gray/30 px-3 py-1.5">
+                {glosarium[tag] ? <Glosa term={tag} definition={glosarium[tag]} /> : tag}
+              </li>
             ))}
           </ul>
         </div>

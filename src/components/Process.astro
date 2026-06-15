@@ -1,4 +1,6 @@
 ---
+import GlosaText from './GlosaText.astro';
+
 const steps = [
   {
     numeral: 'I',
@@ -28,7 +30,15 @@ const steps = [
   {
     numeral: 'VI',
     title: 'Wdrożenie',
-    text: 'Po dopłacie 50% strona trafia na Twoją domenę, a Ty otrzymujesz dostęp do repozytorium, Cloudflare i CMS.',
+    text: [
+      'Po dopłacie 50% strona trafia na Twoją domenę, a Ty otrzymujesz dostęp do ',
+      { term: 'repozytorium', key: 'Repozytorium' },
+      ', ',
+      { term: 'Cloudflare', key: 'Cloudflare' },
+      ' i ',
+      { term: 'CMS', key: 'CMS' },
+      '.',
+    ],
   },
   {
     numeral: 'VII',
@@ -60,7 +70,9 @@ const steps = [
           </span>
           <div class="col-span-9 sm:col-span-10">
             <h3 class="text-lg sm:text-xl font-semibold mb-1 text-cream">{step.title}</h3>
-            <p class="text-cream/75 leading-relaxed max-w-xl">{step.text}</p>
+            <p class="text-cream/75 leading-relaxed max-w-xl">
+              {Array.isArray(step.text) ? <GlosaText parts={step.text} /> : step.text}
+            </p>
           </div>
         </li>
         );

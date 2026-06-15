@@ -1,5 +1,6 @@
 ---
 import Mark from './Mark.astro';
+import GlosaText from './GlosaText.astro';
 const year = new Date().getFullYear();
 ---
 
@@ -11,7 +12,9 @@ const year = new Date().getFullYear();
     </div>
 
     <p class="font-sans text-sm text-warm-gray">
-      &copy; {year} Opifex. Strony budowane na Astro, hostowane na Cloudflare Pages.
+      &copy; {year} Opifex. Strony budowane na{' '}
+      <GlosaText parts={[{ term: 'Astro', key: 'Astro' }]} />, hostowane na{' '}
+      <GlosaText parts={[{ term: 'Cloudflare Pages', key: 'Cloudflare Pages' }]} />.
     </p>
 
     <a href="/umowa" class="eyebrow hover:text-terracotta transition-colors duration-200">
