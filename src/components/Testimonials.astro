@@ -1,0 +1,37 @@
+---
+const testimonials = [
+  {
+    quote:
+      'Otrzymałem dokładnie to, czego potrzebowałem: nowoczesną stronę internetową, spójną identyfikację wizualną oraz wsparcie na każdym etapie realizacji projektu. Na szczególne wyróżnienie zasługuje przygotowanie kompletnego Brand Booka, którego początkowo nawet nie planowałem. Profesjonalnie, terminowo i bezproblemowo. Zdecydowanie polecam współpracę.',
+    author: 'GeoComplex',
+  },
+  {
+    quote:
+      'Współpraca przy tworzeniu naszej strony internetowej przebiegła bardzo sprawnie i profesjonalnie. Projekt został zrealizowany szybko, terminowo oraz z dużą dbałością o szczegóły. Efekt końcowy w pełni odpowiadał naszej wizji, a strona jest przejrzysta, nowoczesna i wygodna w obsłudze zarówno na komputerach, jak i urządzeniach mobilnych. Z pełnym przekonaniem polecamy współpracę.',
+    author: 'Parafia Archaniołów',
+  },
+];
+---
+
+<section id="opinie" class="mx-auto max-w-6xl px-6 py-16 md:py-24 hairline">
+  <div class="mb-10 md:mb-12 max-w-md">
+    <p class="eyebrow mb-4">Opinie</p>
+    <h2 class="text-3xl md:text-4xl font-semibold leading-tight">
+      Głos klientów po realizacji
+    </h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+    {testimonials.map((item) => (
+      <figure>
+        <span class="block font-display text-5xl text-terracotta/40 leading-none mb-2" aria-hidden="true">
+          &bdquo;
+        </span>
+        <blockquote class="text-anthracite/80 leading-relaxed max-w-xl">
+          {item.quote}
+        </blockquote>
+        <figcaption class="eyebrow mt-4 text-anthracite">{item.author}</figcaption>
+      </figure>
+    ))}
+  </div>
+</section>

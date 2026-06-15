@@ -38,31 +38,33 @@ const steps = [
 ];
 ---
 
-<section id="proces" class="mx-auto max-w-6xl px-6 py-16 md:py-24 hairline">
-  <div class="mb-10 md:mb-12 max-w-md">
-    <p class="eyebrow mb-4">Proces</p>
-    <h2 class="text-3xl md:text-4xl font-semibold leading-tight">
-      Siedem kroków, jeden harmonogram
-    </h2>
-  </div>
+<section id="proces" class="bg-anthracite text-cream py-16 md:py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mb-10 md:mb-12 max-w-md">
+      <p class="eyebrow mb-4">Proces</p>
+      <h2 class="text-3xl md:text-4xl font-semibold leading-tight text-cream">
+        Siedem kroków, jeden harmonogram
+      </h2>
+    </div>
 
-  <ol class="grid grid-cols-1 md:grid-cols-2 gap-x-12 md:gap-x-16">
-    {steps.map((step, i) => {
-      const border = i === 0 ? '' : i === 1 ? 'hairline md:border-t-0' : 'hairline';
-      return (
-      <li class={`grid grid-cols-12 gap-6 items-baseline py-5 ${border}`}>
-        <span
-          class="col-span-3 sm:col-span-2 font-display text-3xl sm:text-4xl font-semibold text-anthracite/10 leading-none"
-          aria-hidden="true"
-        >
-          {step.numeral}
-        </span>
-        <div class="col-span-9 sm:col-span-10">
-          <h3 class="text-lg sm:text-xl font-semibold mb-1">{step.title}</h3>
-          <p class="text-anthracite/75 leading-relaxed max-w-xl">{step.text}</p>
-        </div>
-      </li>
-      );
-    })}
-  </ol>
+    <ol class="grid grid-cols-1 md:grid-cols-2 gap-x-12 md:gap-x-16">
+      {steps.map((step, i) => {
+        const border = i === 0 ? '' : i === 1 ? 'border-t border-cream/15 md:border-t-0' : 'border-t border-cream/15';
+        return (
+        <li class={`grid grid-cols-12 gap-6 items-baseline py-5 ${border}`}>
+          <span
+            class="col-span-3 sm:col-span-2 font-display text-3xl sm:text-4xl font-semibold text-cream/15 leading-none"
+            aria-hidden="true"
+          >
+            {step.numeral}
+          </span>
+          <div class="col-span-9 sm:col-span-10">
+            <h3 class="text-lg sm:text-xl font-semibold mb-1 text-cream">{step.title}</h3>
+            <p class="text-cream/75 leading-relaxed max-w-xl">{step.text}</p>
+          </div>
+        </li>
+        );
+      })}
+    </ol>
+  </div>
 </section>

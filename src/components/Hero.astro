@@ -2,8 +2,17 @@
 import Mark from './Mark.astro';
 ---
 
-<section class="mx-auto max-w-6xl px-6 py-20 md:py-32">
-  <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 items-center">
+<section class="relative mx-auto max-w-6xl px-6 py-20 md:py-32">
+  <svg class="absolute inset-0 -z-10 h-full w-full" aria-hidden="true" preserveAspectRatio="none">
+    <defs>
+      <pattern id="hero-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+        <path d="M48 0 L0 0 0 48" fill="none" stroke="#8C8479" stroke-opacity="0.12" stroke-width="1" />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#hero-grid)" />
+  </svg>
+
+  <div class="relative grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 items-center">
     <div class="md:col-span-7">
       <p class="eyebrow mb-6">Strony internetowe — pełny serwis</p>
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.1] max-w-2xl">
