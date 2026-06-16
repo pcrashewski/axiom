@@ -13,21 +13,19 @@ import Mark from './Mark.astro';
 
 <script>
   const kurtyna = document.getElementById('kurtyna');
-  if (!kurtyna) {
-    // skip
-  } else if (sessionStorage.getItem('kurtyna-ok')) {
-    kurtyna.remove();
-  } else {
-    sessionStorage.setItem('kurtyna-ok', '1');
-    document.documentElement.classList.add('kurtyna-skip'); // zabezpiecza kolejne przejścia SPA
-    const zjezdzaj = () => {
-      kurtyna.classList.add('kurtyna-zjazd');
-      kurtyna.addEventListener('transitionend', () => kurtyna.remove(), { once: true });
-    };
-    if (document.readyState === 'complete') {
-      setTimeout(zjezdzaj, 900);
+  if (kurtyna) {
+    if (sessionStorage.getItem('kurtyna-ok')) {
+      kurtyna.remove();
     } else {
-      window.addEventListener('load', () => setTimeout(zjezdzaj, 900), { once: true });
+      sessionStorage.setItem('kurtyna-ok', '1');
+      document.documentElement.classList.add('kurtyna-skip');
+      setTimeout(() => {
+        kurtyna.classList.add('kurtyna-zjazd');
+        // fallback: usuń po zakończeniu animacji lub po 1s, cokolwiek nastąpi pierwsze
+        const usun = () => kurtyna.remove();
+        kurtyna.addEventListener('transitionend', usun, { once: true });
+        setTimeout(usun, 1000);
+      }, 850);
     }
   }
 </script>
