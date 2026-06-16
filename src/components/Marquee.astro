@@ -1,0 +1,21 @@
+---
+const etykiety = [
+  'Projekt', 'Kod', 'Domena', 'Hosting', 'CMS',
+  'Identyfikacja wizualna', 'Cloudflare Pages', 'Schema.org',
+  'Tailwind CSS', 'Astro', 'Formularz kontaktowy',
+  'Migracja treści', 'Galeria realizacji', 'Pełna własność', 'Bez abonamentów',
+];
+---
+
+<div
+  class="overflow-hidden border-y border-warm-gray/20 bg-anthracite py-3"
+  aria-hidden="true"
+>
+  <div class="marquee-pas flex w-max">
+    {[...etykiety, ...etykiety].map((e) => (
+      <span class="eyebrow whitespace-nowrap px-4 text-cream/40">
+        {e}<span class="mx-4 text-terracotta/70">·</span>
+      </span>
+    ))}
+  </div>
+</div>

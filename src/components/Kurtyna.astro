@@ -1,0 +1,33 @@
+---
+import Mark from './Mark.astro';
+---
+
+<div
+  id="kurtyna"
+  class="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-cream gap-5"
+  aria-hidden="true"
+>
+  <Mark class="h-16 w-16" />
+  <p class="eyebrow tracking-[0.35em] text-warm-gray">Opifex</p>
+</div>
+
+<script>
+  const kurtyna = document.getElementById('kurtyna');
+  if (!kurtyna) {
+    // skip
+  } else if (sessionStorage.getItem('kurtyna-ok')) {
+    kurtyna.remove();
+  } else {
+    sessionStorage.setItem('kurtyna-ok', '1');
+    document.documentElement.classList.add('kurtyna-skip'); // zabezpiecza kolejne przejścia SPA
+    const zjezdzaj = () => {
+      kurtyna.classList.add('kurtyna-zjazd');
+      kurtyna.addEventListener('transitionend', () => kurtyna.remove(), { once: true });
+    };
+    if (document.readyState === 'complete') {
+      setTimeout(zjezdzaj, 900);
+    } else {
+      window.addEventListener('load', () => setTimeout(zjezdzaj, 900), { once: true });
+    }
+  }
+</script>

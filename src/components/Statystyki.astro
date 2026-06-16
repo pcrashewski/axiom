@@ -1,0 +1,86 @@
+---
+const metryki = [
+  {
+    liczba: 22,
+    sufiks: '',
+    glowna: 'lat w zawodzie',
+    opis: 'od pierwszej linii kodu zawodowego, przez systemy przemysłowe, po strony internetowe',
+  },
+  {
+    liczba: 1,
+    sufiks: '',
+    glowna: 'projekt na raz',
+    opis: 'pełna uwaga, bez wielozadaniowości — każdy projekt traktuję jak jedyny',
+  },
+  {
+    liczba: 100,
+    sufiks: '%',
+    glowna: 'własności do Ciebie',
+    opis: 'domena, hosting, repozytorium — od dnia wdrożenia wszystko jest Twoje',
+  },
+  {
+    liczba: 0,
+    sufiks: '',
+    glowna: 'abonamentów u mnie',
+    opis: 'po wdrożeniu nie płacisz mi nic — koszty serwisu to tylko domena i Cloudflare',
+  },
+];
+---
+
+<div class="border-y border-warm-gray/20 bg-cream py-12 md:py-16">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10">
+      {metryki.map((m) => (
+        <div class="flex flex-col gap-2">
+          <div class="flex items-end gap-1 leading-none">
+            <span
+              class="font-display text-5xl md:text-6xl font-semibold text-anthracite tabular-nums"
+              data-cel={m.liczba}
+              data-sufiks={m.sufiks}
+            >
+              {m.liczba === 0 ? `0${m.sufiks}` : `0${m.sufiks}`}
+            </span>
+          </div>
+          <p class="font-display text-base font-semibold text-anthracite">{m.glowna}</p>
+          <p class="font-sans text-[11px] text-warm-gray leading-snug">{m.opis}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  const animujLiczniki = () => {
+    const liczniki = document.querySelectorAll<HTMLElement>('[data-cel]');
+
+    const obs = new IntersectionObserver((wpisy) => {
+      wpisy.forEach((wpis) => {
+        if (!wpis.isIntersecting) return;
+        const el = wpis.target as HTMLElement;
+        obs.unobserve(el);
+
+        const cel = parseInt(el.dataset.cel ?? '0', 10);
+        const sufiks = el.dataset.sufiks ?? '';
+
+        if (cel === 0) { el.textContent = `0${sufiks}`; return; }
+
+        const czas = cel > 10 ? 1400 : 600;
+        const start = performance.now();
+
+        const krok = (teraz: number) => {
+          const t = Math.min((teraz - start) / czas, 1);
+          const ease = 1 - Math.pow(1 - t, 3);
+          el.textContent = `${Math.round(ease * cel)}${sufiks}`;
+          if (t < 1) requestAnimationFrame(krok);
+        };
+
+        requestAnimationFrame(krok);
+      });
+    }, { threshold: 0.4 });
+
+    liczniki.forEach((el) => obs.observe(el));
+  };
+
+  animujLiczniki();
+  document.addEventListener('astro:page-load', animujLiczniki);
+</script>

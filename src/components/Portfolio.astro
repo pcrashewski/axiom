@@ -1,6 +1,7 @@
 ---
 import SiteMockup from './SiteMockup.astro';
 import Glosa from './Glosa.astro';
+import BeforeAfter from './BeforeAfter.astro';
 import { glosarium } from '../data/glosarium';
 
 const works = [
@@ -69,6 +70,13 @@ const works = [
             ))}
           </ul>
         </div>
+
+        {i === 0 && (
+          <div class="md:col-span-12">
+            <p class="eyebrow mb-4 text-warm-gray/70">Migracja — przeciągnij, aby porównać</p>
+            <BeforeAfter />
+          </div>
+        )}
       </article>
     ))}
   </div>

@@ -2,6 +2,7 @@
 import { ViewTransitions } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Kurtyna from '../components/Kurtyna.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -49,8 +50,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     })} />
 
     <ViewTransitions />
+    <!-- Kurtyna: ukryj natychmiast jeśli była już pokazana w tej sesji -->
+    <script is:inline>
+      if(sessionStorage.getItem('kurtyna-ok')){document.documentElement.classList.add('kurtyna-skip')}
+    </script>
   </head>
   <body>
+    <Kurtyna />
+    <div id="kursor" aria-hidden="true"></div>
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:bg-anthracite focus:text-cream focus:px-4 focus:py-2"
@@ -64,27 +71,101 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <Footer />
 
     <script>
-      // Odkrywanie "linea-tracta" — kontury kreślone deską kreślarską przy wejściu w widok.
-      const obserwator = new IntersectionObserver(
+      // ── 1. Linea tracta — kreślenie konturów SVG przy wejściu w widok ──────────
+      const obserwatorLinii = new IntersectionObserver(
         (wpisy) => {
           for (const wpis of wpisy) {
             if (wpis.isIntersecting) {
               wpis.target.classList.add('in-conspectu');
-              obserwator.unobserve(wpis.target);
+              obserwatorLinii.unobserve(wpis.target);
             }
           }
         },
         { rootMargin: '0px 0px -10% 0px', threshold: 0.2 }
       );
 
-      const zaobserwuj = () => {
+      const zaobserwujLinie = () => {
         for (const linia of document.querySelectorAll('.linea-tracta:not(.in-conspectu)')) {
-          obserwator.observe(linia);
+          obserwatorLinii.observe(linia);
         }
       };
 
-      zaobserwuj();
-      document.addEventListener('astro:page-load', zaobserwuj);
+      // ── 2. Aktywna sekcja w nawigacji ─────────────────────────────────────────
+      const inicjujAktywnyLink = () => {
+        const sekcje = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
+        const linki = Array.from(document.querySelectorAll<HTMLAnchorElement>('header nav a[href]'));
+        if (!sekcje.length || !linki.length) return;
+
+        const obsNav = new IntersectionObserver((wpisy) => {
+          for (const wpis of wpisy) {
+            if (wpis.isIntersecting) {
+              const id = wpis.target.id;
+              linki.forEach((link) => {
+                const href = link.getAttribute('href') ?? '';
+                const aktywny = href === `#${id}` || href === `/#${id}`;
+                link.classList.toggle('nav-aktywny', aktywny);
+              });
+            }
+          }
+        }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+        sekcje.forEach((s) => obsNav.observe(s));
+      };
+
+      // ── 3. Kursor kreślarza ────────────────────────────────────────────────────
+      const inicjujKursor = () => {
+        if ('ontouchstart' in window) return;
+        const kursor = document.getElementById('kursor');
+        if (!kursor) return;
+
+        document.addEventListener('mousemove', (e) => {
+          kursor.style.left = e.clientX + 'px';
+          kursor.style.top = e.clientY + 'px';
+          document.body.classList.add('kursor-aktywny', 'kursor-widoczny');
+        }, { passive: true });
+
+        document.addEventListener('mouseleave', () => {
+          document.body.classList.remove('kursor-aktywny');
+        });
+
+        document.addEventListener('mouseover', (e) => {
+          const el = e.target as Element;
+          const naAkcji = !!el.closest('a, button, [role="button"], input, textarea, select, label, summary');
+          document.body.classList.toggle('kursor-na-akcji', naAkcji);
+        });
+      };
+
+      // ── 4. Reveal słów — nagłówki wchodzą słowo po słowie ────────────────────
+      const inicjujReveal = () => {
+        document.querySelectorAll<HTMLElement>('section h2:not([data-podzielony])').forEach((el) => {
+          el.setAttribute('data-podzielony', '1');
+          const tekst = el.textContent?.trim() ?? '';
+          el.innerHTML = tekst
+            .split(/\s+/)
+            .map((slowo, i) => `<span class="slowo" style="--pora:${(i * 0.09).toFixed(2)}s">${slowo}</span>`)
+            .join(' ');
+          el.classList.add('h-reveal');
+
+          const obs = new IntersectionObserver(([wpis]) => {
+            if (wpis.isIntersecting) {
+              el.classList.add('w-polu');
+              obs.disconnect();
+            }
+          }, { threshold: 0.35 });
+          obs.observe(el);
+        });
+      };
+
+      // ── Inicjalizacja ─────────────────────────────────────────────────────────
+      const init = () => {
+        zaobserwujLinie();
+        inicjujAktywnyLink();
+        inicjujReveal();
+      };
+
+      inicjujKursor(); // tylko raz, nasłuchuje globalnie
+      init();
+      document.addEventListener('astro:page-load', init);
     </script>
   </body>
 </html>

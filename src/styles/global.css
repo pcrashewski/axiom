@@ -152,6 +152,73 @@
   }
 }
 
+/* Kurtyna — zasłona wstępna, zjeżdża w górę po załadowaniu */
+#kurtyna {
+  transition: transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+}
+#kurtyna.kurtyna-zjazd {
+  transform: translateY(-100%);
+}
+html.kurtyna-skip #kurtyna {
+  display: none !important;
+}
+
+/* Pasek marquee — taśma kompetencji */
+@keyframes marquee-przewin {
+  to { transform: translateX(-50%); }
+}
+.marquee-pas {
+  animation: marquee-przewin 45s linear infinite;
+  will-change: transform;
+}
+
+/* Kursor kreślarza — crosshair zamiast systemowej strzałki */
+#kursor {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9998;
+  width: 18px; height: 18px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.25s, color 0.15s;
+  color: #1C1B1A;
+}
+#kursor::before,
+#kursor::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+}
+#kursor::before {
+  width: 100%; height: 1px;
+  top: 50%; left: 0;
+}
+#kursor::after {
+  width: 1px; height: 100%;
+  top: 0; left: 50%;
+}
+body.kursor-aktywny #kursor { opacity: 1; }
+body.kursor-na-akcji #kursor { color: #C9764A; transform: translate(-50%, -50%) scale(1.55); }
+body.kursor-widoczny,
+body.kursor-widoczny * { cursor: none !important; }
+
+/* Aktywny link w nawigacji */
+.nav-aktywny { color: #C9764A !important; }
+
+/* Reveal słów — nagłówki wchodzą słowo po słowie */
+.slowo {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.45s ease-out, transform 0.45s ease-out;
+  transition-delay: var(--pora, 0s);
+}
+.h-reveal.w-polu .slowo {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .linea-tracta {
     stroke-dashoffset: 0;
@@ -161,4 +228,7 @@
   .signum-pars {
     animation: none;
   }
+
+  .marquee-pas { animation: none; }
+  .slowo { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
