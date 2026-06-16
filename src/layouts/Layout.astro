@@ -193,14 +193,54 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         }, true); // capture: true — odpal przed Astro ViewTransitions
       };
 
+      // ── 5. Magnetyczne przyciski — lekkie przyciąganie kursora przy hover ────────
+      const inicjujMagnes = () => {
+        if (window.matchMedia('(hover: none)').matches) return;
+        const selektor = '.btn-primary:not([data-magnes]), .btn-secondary:not([data-magnes])';
+        document.querySelectorAll<HTMLElement>(selektor).forEach((el) => {
+          el.setAttribute('data-magnes', '1');
+          el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const dx = (e.clientX - rect.left - rect.width / 2) * 0.3;
+            const dy = (e.clientY - rect.top - rect.height / 2) * 0.3;
+            el.style.transition = 'background-color 0.2s, color 0.2s, border-color 0.2s';
+            el.style.transform = `translate(${dx}px, ${dy}px)`;
+          });
+          el.addEventListener('mouseleave', () => {
+            el.style.transition =
+              'background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.65s cubic-bezier(0.23,1,0.32,1)';
+            el.style.transform = '';
+          });
+        });
+      };
+
+      // ── 6. Scroll velocity — header zwęża się przy szybkim scrollu ────────────
+      const inicjujScrollVelocity = () => {
+        const header = document.querySelector<HTMLElement>('header');
+        if (!header) return;
+        let lastY = window.scrollY, lastT = Date.now();
+        let tid: ReturnType<typeof setTimeout>;
+        window.addEventListener('scroll', () => {
+          const now = Date.now();
+          const vel = Math.abs(window.scrollY - lastY) / Math.max(now - lastT, 1);
+          header.classList.toggle('scroll-szybki', vel > 1.2);
+          clearTimeout(tid);
+          tid = setTimeout(() => header.classList.remove('scroll-szybki'), 180);
+          lastY = window.scrollY;
+          lastT = now;
+        }, { passive: true });
+      };
+
       // ── Inicjalizacja ─────────────────────────────────────────────────────────
       const init = () => {
         zaobserwujLinie();
         inicjujAktywnyLink();
         inicjujReveal();
+        inicjujMagnes();
       };
 
-      inicjujPlynnePrzew(); // tylko raz — listener przeżywa ViewTransitions
+      inicjujPlynnePrzew();    // tylko raz — listener przeżywa ViewTransitions
+      inicjujScrollVelocity(); // tylko raz — scroll listener globalny
       init();
       document.addEventListener('astro:page-load', init);
     </script>

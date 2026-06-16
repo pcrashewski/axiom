@@ -2,7 +2,7 @@
 import Mark from './Mark.astro';
 ---
 
-<section class="relative mx-auto max-w-6xl px-6 py-20 md:py-32">
+<section class="relative mx-auto max-w-6xl px-6 py-20 md:py-32 overflow-hidden" data-hero>
   <svg class="absolute inset-0 -z-10 h-full w-full" aria-hidden="true" preserveAspectRatio="none">
     <defs>
       <pattern id="hero-grid" width="48" height="48" patternUnits="userSpaceOnUse">
@@ -11,6 +11,9 @@ import Mark from './Mark.astro';
     </defs>
     <rect width="100%" height="100%" fill="url(#hero-grid)" />
   </svg>
+
+  <!-- Ambient glow — śledzi kursor, animowany przez JS -->
+  <div class="hero-glow absolute inset-0 pointer-events-none" aria-hidden="true"></div>
 
   <div class="relative grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 items-center">
     <div class="md:col-span-7">
@@ -44,3 +47,37 @@ import Mark from './Mark.astro';
     </div>
   </div>
 </section>
+
+<script>
+  const inicjujGlow = () => {
+    const hero = document.querySelector<HTMLElement>('[data-hero]');
+    const glow = hero?.querySelector<HTMLElement>('.hero-glow');
+    if (!hero || !glow) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    let mx = 50, my = 50, tx = 50, ty = 50;
+
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      tx = ((e.clientX - rect.left) / rect.width) * 100;
+      ty = ((e.clientY - rect.top) / rect.height) * 100;
+      glow.style.opacity = '1';
+    });
+    hero.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+    const tick = () => {
+      mx = lerp(mx, tx, 0.07);
+      my = lerp(my, ty, 0.07);
+      glow.style.setProperty('background',
+        `radial-gradient(380px circle at ${mx}% ${my}%, rgba(201,118,74,0.13), transparent 70%)`
+      );
+      requestAnimationFrame(tick);
+    };
+    tick();
+  };
+
+  inicjujGlow();
+  document.addEventListener('astro:page-load', inicjujGlow);
+</script>
