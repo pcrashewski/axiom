@@ -4,182 +4,237 @@ interface Props {
   etykietaPo?: string;
 }
 const {
-  etykietaPrzed = 'Przed migracją',
-  etykietaPo = 'Po migracji',
+  etykietaPrzed = 'WordPress — przed',
+  etykietaPo = 'Astro — po migracji',
 } = Astro.props;
 ---
 
-<div
-  class="ba-kontener relative overflow-hidden select-none"
-  style="aspect-ratio: 480/320; --poz: 50%"
->
-  <!-- Panel PRZED: WordPress-style cluttered layout -->
-  <svg
-    viewBox="0 0 480 320"
-    xmlns="http://www.w3.org/2000/svg"
-    class="absolute inset-0 w-full h-full"
-    aria-hidden="true"
+<figure class="w-full">
+  <div
+    class="ba-kontener relative overflow-hidden rounded-sm border border-warm-gray/20"
+    style="aspect-ratio: 3/2; --poz: 48%"
   >
-    <rect width="480" height="320" fill="#eeebe4"/>
-    <!-- Admin bar -->
-    <rect width="480" height="16" fill="#2d2d2d"/>
-    <circle cx="11" cy="8" r="5" fill="#888"/>
-    <rect x="22" y="4" width="30" height="8" rx="1" fill="#555"/>
-    <rect x="56" y="4" width="20" height="8" rx="1" fill="#555"/>
-    <rect x="80" y="4" width="26" height="8" rx="1" fill="#555"/>
-    <rect x="400" y="4" width="56" height="8" rx="1" fill="#555"/>
-    <!-- Site header: big logo + title block -->
-    <rect y="16" width="480" height="52" fill="#e3dfd8"/>
-    <rect x="12" y="24" width="76" height="36" rx="2" fill="#c0bbb3"/>
-    <rect x="98" y="28" width="136" height="12" rx="1" fill="#9c9890"/>
-    <rect x="98" y="44" width="96" height="9" rx="1" fill="#b4b0a8"/>
-    <rect x="98" y="57" width="110" height="7" rx="1" fill="#c4c0b8"/>
-    <!-- Fat nav bar -->
-    <rect y="68" width="480" height="30" fill="#4a4a8a"/>
-    <rect y="68" width="58" height="30" fill="#3c3c7c"/>
-    <rect x="7" y="76" width="44" height="14" rx="1" fill="#7070aa"/>
-    <rect x="64" y="76" width="38" height="14" rx="1" fill="#6060a0"/>
-    <rect x="110" y="76" width="52" height="14" rx="1" fill="#6060a0"/>
-    <rect x="170" y="76" width="36" height="14" rx="1" fill="#6060a0"/>
-    <rect x="214" y="76" width="46" height="14" rx="1" fill="#6060a0"/>
-    <rect x="268" y="76" width="34" height="14" rx="1" fill="#6060a0"/>
-    <rect x="310" y="76" width="28" height="14" rx="1" fill="#6060a0"/>
-    <!-- Hero slider / big banner -->
-    <rect y="98" width="480" height="86" fill="#cac6be"/>
-    <rect y="138" width="480" height="46" fill="rgba(0,0,0,0.22)"/>
-    <rect x="80" y="122" width="320" height="14" rx="2" fill="rgba(255,255,255,0.68)"/>
-    <rect x="140" y="142" width="200" height="10" rx="2" fill="rgba(255,255,255,0.48)"/>
-    <rect x="4" y="131" width="26" height="26" rx="13" fill="rgba(0,0,0,0.35)"/>
-    <rect x="450" y="131" width="26" height="26" rx="13" fill="rgba(0,0,0,0.35)"/>
-    <circle cx="218" cy="177" r="4" fill="#999"/>
-    <circle cx="230" cy="177" r="5" fill="#4a4a8a"/>
-    <circle cx="242" cy="177" r="4" fill="#999"/>
-    <circle cx="254" cy="177" r="4" fill="#999"/>
-    <!-- Main content (left column) -->
-    <rect x="12" y="196" width="54" height="7" rx="1" fill="#bbb"/>
-    <rect x="12" y="208" width="200" height="12" rx="1" fill="#8a8a8a"/>
-    <rect x="12" y="226" width="195" height="7" rx="1" fill="#ccc"/>
-    <rect x="12" y="237" width="180" height="7" rx="1" fill="#ccc"/>
-    <rect x="12" y="248" width="190" height="7" rx="1" fill="#ccc"/>
-    <rect x="12" y="259" width="158" height="7" rx="1" fill="#ccc"/>
-    <rect x="12" y="259" width="158" height="7" rx="1" fill="#ccc"/>
-    <rect x="12" y="274" width="66" height="18" rx="2" fill="#4a4a8a"/>
-    <!-- Sidebar (right) -->
-    <rect x="314" y="194" width="154" height="14" rx="1" fill="#d0ccc4"/>
-    <rect x="322" y="214" width="136" height="8" rx="1" fill="#ddd"/>
-    <rect x="322" y="226" width="118" height="8" rx="1" fill="#ddd"/>
-    <rect x="322" y="238" width="130" height="8" rx="1" fill="#ddd"/>
-    <rect x="322" y="250" width="104" height="8" rx="1" fill="#ddd"/>
-    <rect x="314" y="268" width="154" height="14" rx="1" fill="#d0ccc4"/>
-    <rect x="322" y="288" width="136" height="20" rx="1" fill="#e2dfd8"/>
-    <!-- Footer -->
-    <rect y="312" width="480" height="8" fill="#2d2d2d"/>
-  </svg>
-
-  <!-- Panel PO: czysty layout Astro -->
-  <div class="ba-po absolute inset-0">
+    <!-- ══ PRZED: ciężki, zatłoczony layout WordPress ══════════════════════════ -->
     <svg
-      viewBox="0 0 480 320"
+      viewBox="0 0 600 400"
       xmlns="http://www.w3.org/2000/svg"
       class="absolute inset-0 w-full h-full"
       aria-hidden="true"
     >
-      <rect width="480" height="320" fill="#F7F2E9"/>
-      <!-- Grid pattern (jak w Hero) -->
-      <defs>
-        <pattern id="ba-grid" width="48" height="48" patternUnits="userSpaceOnUse">
-          <path d="M48 0 L0 0 0 48" fill="none" stroke="#8C8479" stroke-opacity="0.08" stroke-width="1"/>
-        </pattern>
-      </defs>
-      <rect width="480" height="200" y="56" fill="url(#ba-grid)"/>
-      <!-- Hairline nav bar -->
-      <rect width="480" height="1" y="48" fill="#8C847940"/>
-      <!-- Logo: dwa kwadraty (Mark) -->
-      <rect x="12" y="16" width="16" height="16" fill="#1C1B1A"/>
-      <rect x="18" y="22" width="16" height="16" fill="#C9764A" opacity="0.88"/>
-      <!-- Wordmark -->
-      <rect x="42" y="17" width="52" height="8" rx="1" fill="#1C1B1A"/>
-      <rect x="42" y="29" width="100" height="6" rx="1" fill="#8C8479" opacity="0.6"/>
-      <!-- Nav links -->
-      <rect x="320" y="21" width="26" height="6" rx="1" fill="#8C8479" opacity="0.7"/>
-      <rect x="356" y="21" width="32" height="6" rx="1" fill="#8C8479" opacity="0.7"/>
-      <rect x="398" y="21" width="26" height="6" rx="1" fill="#8C8479" opacity="0.7"/>
-      <rect x="432" y="17" width="36" height="14" fill="#1C1B1A"/>
-      <!-- Hero: eyebrow + heading -->
-      <rect x="32" y="72" width="90" height="6" rx="1" fill="#C9764A" opacity="0.8"/>
-      <rect x="32" y="86" width="260" height="16" rx="2" fill="#1C1B1A"/>
-      <rect x="32" y="107" width="220" height="16" rx="2" fill="#1C1B1A"/>
-      <!-- Subtext lines -->
-      <rect x="32" y="132" width="210" height="7" rx="1" fill="#8C8479" opacity="0.6"/>
-      <rect x="32" y="143" width="190" height="7" rx="1" fill="#8C8479" opacity="0.6"/>
-      <!-- CTAs -->
-      <rect x="32" y="162" width="82" height="20" fill="#1C1B1A"/>
-      <rect x="122" y="162" width="80" height="20" fill="none" stroke="#1C1B1A" stroke-width="1"/>
-      <!-- Right: Mark logo big -->
-      <rect x="310" y="68" width="68" height="68" fill="#1C1B1A" opacity="0.06"/>
-      <rect x="340" y="98" width="68" height="68" fill="#C9764A" opacity="0.12"/>
-      <!-- Hairline sections -->
-      <rect width="480" height="1" y="210" fill="#8C847940"/>
-      <!-- Services section -->
-      <rect x="32" y="222" width="44" height="6" rx="1" fill="#C9764A" opacity="0.7"/>
-      <rect x="32" y="233" width="160" height="14" rx="2" fill="#1C1B1A"/>
-      <!-- Feature bullets -->
-      <rect x="32" y="258" width="4" height="4" fill="#C9764A"/>
-      <rect x="44" y="256" width="88" height="8" rx="1" fill="#1C1B1A" opacity="0.7"/>
-      <rect x="44" y="267" width="76" height="6" rx="1" fill="#8C8479" opacity="0.5"/>
-      <rect x="172" y="258" width="4" height="4" fill="#C9764A"/>
-      <rect x="184" y="256" width="88" height="8" rx="1" fill="#1C1B1A" opacity="0.7"/>
-      <rect x="184" y="267" width="76" height="6" rx="1" fill="#8C8479" opacity="0.5"/>
-      <rect x="312" y="258" width="4" height="4" fill="#C9764A"/>
-      <rect x="324" y="256" width="88" height="8" rx="1" fill="#1C1B1A" opacity="0.7"/>
-      <rect x="324" y="267" width="76" height="6" rx="1" fill="#8C8479" opacity="0.5"/>
-      <!-- Footer hairline -->
-      <rect width="480" height="1" y="292" fill="#8C847940"/>
-      <rect x="32" y="302" width="40" height="6" rx="1" fill="#8C8479" opacity="0.5"/>
-      <rect x="336" y="302" width="112" height="6" rx="1" fill="#8C8479" opacity="0.5"/>
+      <!-- Tło strony -->
+      <rect width="600" height="400" fill="#e8e4dc"/>
+
+      <!-- ── Admin bar WordPress ── -->
+      <rect width="600" height="20" fill="#1d2327"/>
+      <rect x="8" y="6" width="8" height="8" rx="1" fill="#3c434a"/>
+      <rect x="22" y="7" width="44" height="6" rx="1" fill="#3c434a"/>
+      <rect x="72" y="7" width="36" height="6" rx="1" fill="#3c434a"/>
+      <rect x="114" y="7" width="50" height="6" rx="1" fill="#3c434a"/>
+      <rect x="480" y="7" width="60" height="6" rx="1" fill="#3c434a"/>
+      <rect x="546" y="7" width="46" height="6" rx="1" fill="#3c434a"/>
+
+      <!-- ── Nagłówek: generic logo + wielki tytuł ── -->
+      <rect y="20" width="600" height="70" fill="#f0ece4"/>
+      <!-- Logo placeholder: okrąg + kwadrat (niespójne) -->
+      <rect x="16" y="30" width="50" height="50" rx="25" fill="#c8c2b8"/>
+      <rect x="16" y="30" width="50" height="50" rx="25" fill="none" stroke="#b0a898" stroke-width="1.5"/>
+      <rect x="28" y="44" width="26" height="22" rx="2" fill="#f0ece4" opacity="0.8"/>
+      <!-- Wielki tytuł parafii w Serif -->
+      <rect x="78" y="34" width="200" height="14" rx="2" fill="#7a7268"/>
+      <rect x="78" y="52" width="160" height="11" rx="2" fill="#a09890"/>
+      <rect x="78" y="67" width="130" height="8" rx="2" fill="#b8b2a8"/>
+      <!-- Ozdobna linia pod nagłówkiem -->
+      <line x1="0" y1="90" x2="600" y2="90" stroke="#c8c0b4" stroke-width="2"/>
+
+      <!-- ── Nawigacja: szeroka, ciemnoniebieska, 7 pozycji ── -->
+      <rect y="90" width="600" height="36" fill="#1b4f72"/>
+      <!-- Active item podświetlony -->
+      <rect y="90" width="80" height="36" fill="#154360"/>
+      <rect x="6" y="99" width="68" height="18" rx="1" fill="#2e86c1" opacity="0.8"/>
+      <!-- Pozostałe linki -->
+      <rect x="88" y="102" width="54" height="12" rx="1" fill="#7fb3d3" opacity="0.7"/>
+      <rect x="150" y="102" width="66" height="12" rx="1" fill="#7fb3d3" opacity="0.7"/>
+      <rect x="224" y="102" width="54" height="12" rx="1" fill="#7fb3d3" opacity="0.7"/>
+      <rect x="286" y="102" width="60" height="12" rx="1" fill="#7fb3d3" opacity="0.7"/>
+      <rect x="354" y="102" width="50" height="12" rx="1" fill="#7fb3d3" opacity="0.7"/>
+      <rect x="412" y="102" width="44" height="12" rx="1" fill="#7fb3d3" opacity="0.7"/>
+      <!-- Szukaj po prawej -->
+      <rect x="558" y="100" width="34" height="16" rx="2" fill="#154360"/>
+
+      <!-- ── Hero: duży slider z gradientem ── -->
+      <rect y="126" width="600" height="100" fill="#c8c2b8"/>
+      <!-- Ciemne sfotografowane zdjęcie (symulacja) -->
+      <rect y="126" width="600" height="100" fill="#b8b4ac"/>
+      <rect y="166" width="600" height="60" fill="rgba(0,0,0,0.35)"/>
+      <!-- Tekst na sliderze -->
+      <rect x="100" y="150" width="400" height="16" rx="2" fill="rgba(255,255,255,0.75)"/>
+      <rect x="160" y="172" width="280" height="11" rx="2" fill="rgba(255,255,255,0.55)"/>
+      <rect x="230" y="189" width="140" height="18" rx="3" fill="#1b4f72" opacity="0.9"/>
+      <!-- Strzałki slidera -->
+      <rect x="8" y="160" width="28" height="28" rx="14" fill="rgba(0,0,0,0.4)"/>
+      <rect x="564" y="160" width="28" height="28" rx="14" fill="rgba(0,0,0,0.4)"/>
+      <!-- Punkciki -->
+      <circle cx="268" cy="220" r="5" fill="#c8c2b8"/>
+      <circle cx="282" cy="220" r="6" fill="#1b4f72"/>
+      <circle cx="296" cy="220" r="5" fill="#c8c2b8"/>
+      <circle cx="310" cy="220" r="5" fill="#c8c2b8"/>
+
+      <!-- ── Treść + sidebar ── -->
+      <!-- Kolumna główna -->
+      <rect x="14" y="236" width="380" height="1" fill="#d0c8bc"/>
+      <rect x="14" y="244" width="80" height="8" rx="1" fill="#c8bcb0"/>
+      <rect x="14" y="258" width="280" height="13" rx="2" fill="#8a8278"/>
+      <rect x="14" y="276" width="360" height="7" rx="1" fill="#c0b8ae"/>
+      <rect x="14" y="287" width="340" height="7" rx="1" fill="#c0b8ae"/>
+      <rect x="14" y="298" width="355" height="7" rx="1" fill="#c0b8ae"/>
+      <rect x="14" y="309" width="300" height="7" rx="1" fill="#c0b8ae"/>
+      <rect x="14" y="324" width="80" height="20" rx="2" fill="#1b4f72"/>
+
+      <!-- Sidebar -->
+      <rect x="406" y="234" width="182" height="160" fill="#ede9e1"/>
+      <!-- Widget 1 -->
+      <rect x="406" y="234" width="182" height="22" fill="#ddd9cf"/>
+      <rect x="416" y="242" width="120" height="8" rx="1" fill="#8a8278"/>
+      <rect x="414" y="262" width="166" height="8" rx="1" fill="#c8bcb0"/>
+      <rect x="414" y="274" width="150" height="8" rx="1" fill="#c8bcb0"/>
+      <rect x="414" y="286" width="158" height="8" rx="1" fill="#c8bcb0"/>
+      <rect x="414" y="298" width="140" height="8" rx="1" fill="#c8bcb0"/>
+      <!-- Widget 2 -->
+      <rect x="406" y="315" width="182" height="22" fill="#ddd9cf"/>
+      <rect x="416" y="323" width="100" height="8" rx="1" fill="#8a8278"/>
+      <rect x="414" y="347" width="166" height="38" rx="1" fill="#e5e1d8"/>
+
+      <!-- ── Footer ── -->
+      <rect y="392" width="600" height="8" fill="#1d2327"/>
     </svg>
+
+    <!-- ══ PO: czysty layout Astro / Opifex ═══════════════════════════════════ -->
+    <div class="ba-po absolute inset-0">
+      <svg
+        viewBox="0 0 600 400"
+        xmlns="http://www.w3.org/2000/svg"
+        class="absolute inset-0 w-full h-full"
+        aria-hidden="true"
+      >
+        <!-- Tło — czysty krem -->
+        <rect width="600" height="400" fill="#F7F2E9"/>
+
+        <!-- Wzór siatki (jak w Hero) -->
+        <defs>
+          <pattern id="ba-siatka" width="48" height="48" patternUnits="userSpaceOnUse">
+            <path d="M48 0 L0 0 0 48" fill="none" stroke="#8C8479" stroke-opacity="0.07" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="56" width="600" height="200" fill="url(#ba-siatka)"/>
+
+        <!-- ── Nawigacja: cienka, przyklejona ── -->
+        <rect width="600" height="1" y="55" fill="#8C847930"/>
+        <!-- Mark — dwa kwadraty -->
+        <rect x="16" y="18" width="22" height="22" fill="#1C1B1A"/>
+        <rect x="24" y="26" width="22" height="22" fill="#C9764A" opacity="0.88"/>
+        <!-- Wordmark -->
+        <rect x="54" y="20" width="56" height="10" rx="1" fill="#1C1B1A"/>
+        <rect x="54" y="34" width="124" height="7" rx="1" fill="#8C8479" opacity="0.5"/>
+        <!-- Linki nav -->
+        <rect x="380" y="24" width="36" height="7" rx="1" fill="#8C8479" opacity="0.6"/>
+        <rect x="426" y="24" width="42" height="7" rx="1" fill="#8C8479" opacity="0.6"/>
+        <rect x="478" y="24" width="36" height="7" rx="1" fill="#8C8479" opacity="0.6"/>
+        <!-- CTA w navie -->
+        <rect x="522" y="18" width="62" height="20" fill="#1C1B1A"/>
+
+        <!-- ── Hero: duże, powietrzne ── -->
+        <!-- Eyebrow -->
+        <rect x="32" y="82" width="116" height="8" rx="1" fill="#C9764A" opacity="0.75"/>
+        <!-- Główny nagłówek: 2 linie, duże -->
+        <rect x="32" y="98" width="320" height="22" rx="2" fill="#1C1B1A"/>
+        <rect x="32" y="126" width="270" height="22" rx="2" fill="#1C1B1A"/>
+        <!-- Podtytuł -->
+        <rect x="32" y="160" width="270" height="9" rx="1" fill="#8C8479" opacity="0.6"/>
+        <rect x="32" y="173" width="240" height="9" rx="1" fill="#8C8479" opacity="0.6"/>
+        <!-- Dwa CTA -->
+        <rect x="32" y="196" width="104" height="26" fill="#1C1B1A"/>
+        <rect x="144" y="196" width="100" height="26" fill="none" stroke="#1C1B1A" stroke-width="1"/>
+        <!-- Mark-logotyp po prawej — duży, dekoracyjny -->
+        <rect x="380" y="76" width="88" height="88" fill="#1C1B1A" opacity="0.05"/>
+        <rect x="424" y="120" width="88" height="88" fill="#C9764A" opacity="0.10"/>
+
+        <!-- ── Hairline sekcji ── -->
+        <rect width="600" height="1" y="248" fill="#8C847930"/>
+
+        <!-- ── Usługi: 3 kafle, dużo powietrza ── -->
+        <!-- Eyebrow -->
+        <rect x="32" y="260" width="58" height="7" rx="1" fill="#C9764A" opacity="0.7"/>
+        <!-- Heading -->
+        <rect x="32" y="273" width="200" height="16" rx="2" fill="#1C1B1A"/>
+
+        <!-- Kafle 3×1 -->
+        <rect x="32" y="302" width="6" height="6" fill="#C9764A"/>
+        <rect x="44" y="300" width="110" height="10" rx="1" fill="#1C1B1A" opacity="0.75"/>
+        <rect x="44" y="314" width="96" height="7" rx="1" fill="#8C8479" opacity="0.5"/>
+        <rect x="44" y="325" width="100" height="7" rx="1" fill="#8C8479" opacity="0.5"/>
+
+        <rect x="216" y="302" width="6" height="6" fill="#C9764A"/>
+        <rect x="228" y="300" width="110" height="10" rx="1" fill="#1C1B1A" opacity="0.75"/>
+        <rect x="228" y="314" width="96" height="7" rx="1" fill="#8C8479" opacity="0.5"/>
+        <rect x="228" y="325" width="100" height="7" rx="1" fill="#8C8479" opacity="0.5"/>
+
+        <rect x="400" y="302" width="6" height="6" fill="#C9764A"/>
+        <rect x="412" y="300" width="110" height="10" rx="1" fill="#1C1B1A" opacity="0.75"/>
+        <rect x="412" y="314" width="96" height="7" rx="1" fill="#8C8479" opacity="0.5"/>
+        <rect x="412" y="325" width="100" height="7" rx="1" fill="#8C8479" opacity="0.5"/>
+
+        <!-- ── Footer: minimalistyczny ── -->
+        <rect width="600" height="1" y="372" fill="#8C847930"/>
+        <!-- Mark mały + copyright -->
+        <rect x="32" y="383" width="12" height="12" fill="#1C1B1A" opacity="0.4"/>
+        <rect x="48" y="386" width="56" height="6" rx="1" fill="#8C8479" opacity="0.5"/>
+        <rect x="430" y="386" width="140" height="6" rx="1" fill="#8C8479" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- Linia podziału z cieniem -->
+    <div
+      class="pointer-events-none absolute inset-y-0 z-10"
+      style="left: var(--poz); width: 2px; background: white; box-shadow: 0 0 8px rgba(0,0,0,0.25);"
+    ></div>
+
+    <!-- Uchwyt -->
+    <div
+      class="pointer-events-none absolute top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 -translate-x-1/2 items-center justify-center rounded-full bg-white shadow-md"
+      style="left: var(--poz)"
+    >
+      <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 5H17M1 5L5 1M1 5L5 9M17 5L13 1M17 5L13 9" stroke="#1C1B1A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- Etykiety -->
+    <span class="pointer-events-none absolute top-3 left-3 z-10 eyebrow bg-anthracite/70 text-cream px-2 py-1 text-[10px]">
+      {etykietaPo}
+    </span>
+    <span class="pointer-events-none absolute top-3 right-3 z-10 eyebrow bg-anthracite/50 text-cream px-2 py-1 text-[10px]">
+      {etykietaPrzed}
+    </span>
+
+    <!-- Suwak -->
+    <input
+      type="range"
+      min="0"
+      max="100"
+      value="48"
+      class="absolute inset-0 z-20 h-full w-full opacity-0"
+      style="cursor: ew-resize !important;"
+      aria-label="Przeciągnij, aby porównać wersję przed i po migracji"
+    />
   </div>
-
-  <!-- Linia podziału -->
-  <div
-    class="pointer-events-none absolute inset-y-0 z-10 w-px bg-white/80"
-    style="left: var(--poz)"
-  ></div>
-
-  <!-- Uchwyt ze strzałkami -->
-  <div
-    class="pointer-events-none absolute top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 -translate-x-1/2 items-center justify-center rounded-full border border-white/60 bg-anthracite/75 shadow-sm"
-    style="left: var(--poz)"
-  >
-    <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1 5H15" stroke="white" stroke-width="1"/>
-      <path d="M4 2L1 5L4 8" stroke="white" stroke-width="1"/>
-      <path d="M12 2L15 5L12 8" stroke="white" stroke-width="1"/>
-    </svg>
-  </div>
-
-  <!-- Etykiety -->
-  <span class="pointer-events-none absolute bottom-3 left-3 z-10 eyebrow bg-cream/80 text-anthracite px-2 py-0.5">
-    {etykietaPo}
-  </span>
-  <span class="pointer-events-none absolute bottom-3 right-3 z-10 eyebrow bg-anthracite/60 text-cream px-2 py-0.5">
-    {etykietaPrzed}
-  </span>
-
-  <!-- Suwak (niewidoczny, pokrywa kontener) -->
-  <input
-    type="range"
-    min="0"
-    max="100"
-    value="50"
-    class="absolute inset-0 z-20 h-full w-full cursor-ew-resize opacity-0"
-    aria-label="Przeciągnij, aby porównać stronę przed i po migracji"
-  />
-</div>
+  <figcaption class="mt-3 text-center eyebrow text-warm-gray/60">
+    Przeciągnij suwak — Parafia Świętych Archaniołów, migracja z WordPress na Astro
+  </figcaption>
+</figure>
 
 <style>
   .ba-po {
-    clip-path: inset(0 calc(100% - var(--poz, 50%)) 0 0);
+    clip-path: inset(0 calc(100% - var(--poz, 48%)) 0 0);
   }
 </style>
 

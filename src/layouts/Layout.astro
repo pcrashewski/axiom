@@ -50,14 +50,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     })} />
 
     <ViewTransitions />
-    <!-- Kurtyna: ukryj natychmiast jeśli była już pokazana w tej sesji -->
+    <!-- Kurtyna: ukryj przez CSS zanim JS wystartuje (tylko powrót / reload) -->
     <script is:inline>
-      if(sessionStorage.getItem('kurtyna-ok')){document.documentElement.classList.add('kurtyna-skip')}
+      if(sessionStorage.getItem('kurtyna-v2')){document.documentElement.classList.add('kurtyna-skip')}
     </script>
   </head>
   <body>
     <Kurtyna />
-    <div id="kursor" aria-hidden="true"></div>
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:bg-anthracite focus:text-cream focus:px-4 focus:py-2"
@@ -81,7 +80,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             }
           }
         },
-        { rootMargin: '0px 0px -10% 0px', threshold: 0.2 }
+        { threshold: 0 }
       );
 
       const zaobserwujLinie = () => {
@@ -102,8 +101,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
               const id = wpis.target.id;
               linki.forEach((link) => {
                 const href = link.getAttribute('href') ?? '';
-                const aktywny = href === `#${id}` || href === `/#${id}`;
-                link.classList.toggle('nav-aktywny', aktywny);
+                link.classList.toggle('nav-aktywny', href === `#${id}` || href === `/#${id}`);
               });
             }
           }
@@ -112,48 +110,48 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         sekcje.forEach((s) => obsNav.observe(s));
       };
 
-      // ── 3. Kursor kreślarza ────────────────────────────────────────────────────
-      const inicjujKursor = () => {
-        if ('ontouchstart' in window) return;
-        const kursor = document.getElementById('kursor');
-        if (!kursor) return;
-
-        document.addEventListener('mousemove', (e) => {
-          kursor.style.left = e.clientX + 'px';
-          kursor.style.top = e.clientY + 'px';
-          document.body.classList.add('kursor-aktywny', 'kursor-widoczny');
-        }, { passive: true });
-
-        document.addEventListener('mouseleave', () => {
-          document.body.classList.remove('kursor-aktywny');
-        });
-
-        document.addEventListener('mouseover', (e) => {
-          const el = e.target as Element;
-          const naAkcji = !!el.closest('a, button, [role="button"], input, textarea, select, label, summary');
-          document.body.classList.toggle('kursor-na-akcji', naAkcji);
+      // ── 3. Reveal nagłówków — cały h2 wchodzi jako blok (bez podziału na słowa) ─
+      const inicjujReveal = () => {
+        document.querySelectorAll<HTMLElement>('section h2:not(.h-reveal)').forEach((el) => {
+          el.classList.add('h-reveal');
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.92) {
+            // Już widoczny przy ładowaniu — pokaż bez animacji
+            el.style.transition = 'none';
+            el.classList.add('w-polu');
+            requestAnimationFrame(() => { el.style.transition = ''; });
+          } else {
+            const obs = new IntersectionObserver(([wpis]) => {
+              if (wpis.isIntersecting) { el.classList.add('w-polu'); obs.disconnect(); }
+            }, { threshold: 0 });
+            obs.observe(el);
+          }
         });
       };
 
-      // ── 4. Reveal słów — nagłówki wchodzą słowo po słowie ────────────────────
-      const inicjujReveal = () => {
-        document.querySelectorAll<HTMLElement>('section h2:not([data-podzielony])').forEach((el) => {
-          el.setAttribute('data-podzielony', '1');
-          const tekst = el.textContent?.trim() ?? '';
-          el.innerHTML = tekst
-            .split(/\s+/)
-            .map((slowo, i) => `<span class="slowo" style="--pora:${(i * 0.09).toFixed(2)}s">${slowo}</span>`)
-            .join(' ');
-          el.classList.add('h-reveal');
-
-          const obs = new IntersectionObserver(([wpis]) => {
-            if (wpis.isIntersecting) {
-              el.classList.add('w-polu');
-              obs.disconnect();
-            }
-          }, { threshold: 0.35 });
-          obs.observe(el);
-        });
+      // ── 4. Płynne przewijanie do sekcji (przechwytuje przed ViewTransitions) ────
+      const inicjujPlynnePrzew = () => {
+        document.addEventListener('click', (e: MouseEvent) => {
+          const link = (e.target as Element).closest<HTMLAnchorElement>('a[href*="#"]');
+          if (!link) return;
+          const href = link.getAttribute('href') ?? '';
+          const hashIdx = href.indexOf('#');
+          if (hashIdx < 0) return;
+          const id = href.slice(hashIdx + 1);
+          if (!id) return;
+          const target = document.getElementById(id);
+          if (!target) return;
+          e.preventDefault();
+          const header = document.querySelector<HTMLElement>('header');
+          const offset = header ? header.offsetHeight + 8 : 88;
+          window.scrollTo({
+            top: target.getBoundingClientRect().top + window.scrollY - offset,
+            behavior: 'smooth',
+          });
+          history.pushState(null, '', `#${id}`);
+          const details = document.querySelector<HTMLDetailsElement>('header details');
+          if (details) details.open = false;
+        }, true); // capture: true — odpal przed Astro ViewTransitions
       };
 
       // ── Inicjalizacja ─────────────────────────────────────────────────────────
@@ -163,7 +161,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         inicjujReveal();
       };
 
-      inicjujKursor(); // tylko raz, nasłuchuje globalnie
+      inicjujPlynnePrzew(); // tylko raz — listener przeżywa ViewTransitions
       init();
       document.addEventListener('astro:page-load', init);
     </script>

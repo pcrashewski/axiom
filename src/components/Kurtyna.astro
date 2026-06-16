@@ -16,14 +16,14 @@ import Mark from './Mark.astro';
     const k = document.getElementById('kurtyna');
     if (!k) return;
 
-    if (sessionStorage.getItem('kurtyna-ok')) {
+    if (sessionStorage.getItem('kurtyna-v2')) {
       // Nie pierwsza wizyta — usuń synchronicznie, zanim przeglądarka narysuje klatkę
       k.remove();
       return;
     }
 
     // Pierwsza wizyta — pokaż i zjechaj
-    sessionStorage.setItem('kurtyna-ok', '1');
+    sessionStorage.setItem('kurtyna-v2', '1');
     setTimeout(() => {
       k.classList.add('kurtyna-zjazd');
       const usun = () => { if (k.isConnected) k.remove(); };
