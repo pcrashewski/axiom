@@ -12,20 +12,30 @@ import Mark from './Mark.astro';
 </div>
 
 <script>
-  const kurtyna = document.getElementById('kurtyna');
-  if (kurtyna) {
+  const inicjalizuj = () => {
+    const k = document.getElementById('kurtyna');
+    if (!k) return;
+
     if (sessionStorage.getItem('kurtyna-ok')) {
-      kurtyna.remove();
-    } else {
-      sessionStorage.setItem('kurtyna-ok', '1');
-      document.documentElement.classList.add('kurtyna-skip');
-      setTimeout(() => {
-        kurtyna.classList.add('kurtyna-zjazd');
-        // fallback: usuń po zakończeniu animacji lub po 1s, cokolwiek nastąpi pierwsze
-        const usun = () => kurtyna.remove();
-        kurtyna.addEventListener('transitionend', usun, { once: true });
-        setTimeout(usun, 1000);
-      }, 850);
+      // Nie pierwsza wizyta — usuń synchronicznie, zanim przeglądarka narysuje klatkę
+      k.remove();
+      return;
     }
-  }
+
+    // Pierwsza wizyta — pokaż i zjechaj
+    sessionStorage.setItem('kurtyna-ok', '1');
+    setTimeout(() => {
+      k.classList.add('kurtyna-zjazd');
+      const usun = () => { if (k.isConnected) k.remove(); };
+      k.addEventListener('transitionend', usun, { once: true });
+      setTimeout(usun, 1000); // fallback gdyby transitionend nie odpaliło
+    }, 850);
+  };
+
+  inicjalizuj();
+
+  // Po każdej nawigacji ViewTransitions Astro wstawia świeży #kurtyna do body —
+  // astro:after-swap odpala się synchronicznie zaraz po podmianie DOM,
+  // więc k.remove() działa przed pierwszym renderem nowej klatki.
+  document.addEventListener('astro:after-swap', inicjalizuj);
 </script>
