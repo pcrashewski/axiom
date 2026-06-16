@@ -28,8 +28,8 @@ import Mark from './Mark.astro';
       k.classList.add('kurtyna-zjazd');
       const usun = () => { if (k.isConnected) k.remove(); };
       k.addEventListener('transitionend', usun, { once: true });
-      setTimeout(usun, 1000); // fallback gdyby transitionend nie odpaliło
-    }, 850);
+      setTimeout(usun, 1100); // fallback gdyby transitionend nie odpaliło
+    }, 1600);
   };
 
   inicjalizuj();

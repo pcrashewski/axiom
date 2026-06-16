@@ -71,21 +71,31 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <script>
       // ── 1. Linea tracta — kreślenie konturów SVG przy wejściu w widok ──────────
+      // WAŻNE: obserwujemy element <svg>, nie jego dzieci (rect/line/path).
+      // Elementy potomne SVG używają własnego układu współrzędnych — IntersectionObserver
+      // nie wylicza dla nich poprawnego bounding-box w Safari i nie odpala przy scrollu w górę.
       const obserwatorLinii = new IntersectionObserver(
         (wpisy) => {
           for (const wpis of wpisy) {
             if (wpis.isIntersecting) {
-              wpis.target.classList.add('in-conspectu');
+              wpis.target.querySelectorAll<Element>('.linea-tracta').forEach((el) =>
+                el.classList.add('in-conspectu')
+              );
               obserwatorLinii.unobserve(wpis.target);
             }
           }
         },
-        { threshold: 0 }
+        { threshold: 0.05 }
       );
 
       const zaobserwujLinie = () => {
-        for (const linia of document.querySelectorAll('.linea-tracta:not(.in-conspectu)')) {
-          obserwatorLinii.observe(linia);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        for (const el of document.querySelectorAll<Element>('.linea-tracta:not(.in-conspectu)')) {
+          const kontener: Element = el.closest('svg') ?? el;
+          if (!kontener.hasAttribute('data-obs')) {
+            kontener.setAttribute('data-obs', '1');
+            obserwatorLinii.observe(kontener);
+          }
         }
       };
 
@@ -110,27 +120,57 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         sekcje.forEach((s) => obsNav.observe(s));
       };
 
-      // ── 3. Reveal nagłówków — cały h2 wchodzi jako blok (bez podziału na słowa) ─
+      // ── 3. Reveal nagłówków — obukierunkowo: animuje przy wejściu, resetuje przy wyjściu ─
       const inicjujReveal = () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         document.querySelectorAll<HTMLElement>('section h2:not(.h-reveal)').forEach((el) => {
           el.classList.add('h-reveal');
           const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight * 0.92) {
-            // Już widoczny przy ładowaniu — pokaż bez animacji
+          const inView = rect.top < window.innerHeight && rect.bottom > 0;
+          const powyżej = rect.bottom < 0; // Nagłówek całkowicie powyżej viewportu
+          if (inView || powyżej) {
+            // Pokaż natychmiast bez animacji
             el.style.transition = 'none';
             el.classList.add('w-polu');
             requestAnimationFrame(() => { el.style.transition = ''; });
           } else {
+            // Poniżej viewportu — obukierunkowy toggle przy scrollu
             const obs = new IntersectionObserver(([wpis]) => {
-              if (wpis.isIntersecting) { el.classList.add('w-polu'); obs.disconnect(); }
-            }, { threshold: 0 });
+              el.classList.toggle('w-polu', wpis.isIntersecting);
+            }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
             obs.observe(el);
           }
         });
       };
 
-      // ── 4. Płynne przewijanie do sekcji (przechwytuje przed ViewTransitions) ────
+      // ── 4. Płynne przewijanie do sekcji z własnym easingiem ───────────────────
       const inicjujPlynnePrzew = () => {
+        const easeInOutQuart = (t: number) =>
+          t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
+
+        const przewijDo = (cel: HTMLElement) => {
+          const header = document.querySelector<HTMLElement>('header');
+          const offset = header ? header.offsetHeight + 8 : 88;
+          const docelY = cel.getBoundingClientRect().top + window.scrollY - offset;
+          const startY = window.scrollY;
+          const roznica = docelY - startY;
+          if (Math.abs(roznica) < 10) return;
+          const czas = Math.min(Math.max(Math.abs(roznica) * 0.4, 600), 1000);
+
+          const html = document.documentElement;
+          html.style.scrollBehavior = 'auto';
+          let tStart: number | null = null;
+          const krok = (ts: number) => {
+            if (tStart === null) tStart = ts;
+            const elapsed = ts - tStart;
+            const t = Math.min(elapsed / czas, 1);
+            window.scrollTo(0, startY + roznica * easeInOutQuart(t));
+            if (t < 1) requestAnimationFrame(krok);
+            else html.style.scrollBehavior = '';
+          };
+          requestAnimationFrame(krok);
+        };
+
         document.addEventListener('click', (e: MouseEvent) => {
           const link = (e.target as Element).closest<HTMLAnchorElement>('a[href*="#"]');
           if (!link) return;
@@ -139,18 +179,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           if (hashIdx < 0) return;
           const id = href.slice(hashIdx + 1);
           if (!id) return;
-          const target = document.getElementById(id);
-          if (!target) return;
+          const cel = document.getElementById(id);
+          if (!cel) return;
           e.preventDefault();
-          const header = document.querySelector<HTMLElement>('header');
-          const offset = header ? header.offsetHeight + 8 : 88;
-          window.scrollTo({
-            top: target.getBoundingClientRect().top + window.scrollY - offset,
-            behavior: 'smooth',
-          });
+          przewijDo(cel);
           history.pushState(null, '', `#${id}`);
           const details = document.querySelector<HTMLDetailsElement>('header details');
           if (details) details.open = false;
+          // Wizualny sygnał sekcji docelowej
+          cel.classList.remove('cel-nawigacji');
+          void (cel as HTMLElement).offsetWidth; // reflow → restart animacji
+          cel.classList.add('cel-nawigacji');
         }, true); // capture: true — odpal przed Astro ViewTransitions
       };
 
