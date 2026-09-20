@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://opifex.pl/sitemap-index.xml
+Sitemap: https://axiom.pl/sitemap-index.xml
