@@ -90,7 +90,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         from: env.CONTACT_FROM,
         to: env.CONTACT_TO || DEFAULT_CONTACT_TO,
         reply_to: email,
-        subject: `Opifex — zapytanie od ${name}`,
+        subject: `Axiom — zapytanie od ${name}`,
         text: bodyText,
       }),
     });

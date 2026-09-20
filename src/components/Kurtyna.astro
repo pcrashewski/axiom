@@ -4,11 +4,11 @@ import Mark from './Mark.astro';
 
 <div
   id="kurtyna"
-  class="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-cream gap-5"
+  class="fixed inset-0 z-[999] flex flex-col items-center justify-center gap-5 bg-[#040b12]"
   aria-hidden="true"
 >
   <Mark class="h-16 w-16" />
-  <p class="eyebrow tracking-[0.35em] text-warm-gray">Opifex</p>
+  <p class="eyebrow tracking-[0.35em] text-warm-gray">AXIOM</p>
 </div>
 
 <script>
@@ -17,25 +17,19 @@ import Mark from './Mark.astro';
     if (!k) return;
 
     if (sessionStorage.getItem('kurtyna-v2')) {
-      // Nie pierwsza wizyta — usuń synchronicznie, zanim przeglądarka narysuje klatkę
       k.remove();
       return;
     }
 
-    // Pierwsza wizyta — pokaż i zjechaj
     sessionStorage.setItem('kurtyna-v2', '1');
     setTimeout(() => {
       k.classList.add('kurtyna-zjazd');
       const usun = () => { if (k.isConnected) k.remove(); };
       k.addEventListener('transitionend', usun, { once: true });
-      setTimeout(usun, 1100); // fallback gdyby transitionend nie odpaliło
+      setTimeout(usun, 1100);
     }, 1600);
   };
 
   inicjalizuj();
-
-  // Po każdej nawigacji ViewTransitions Astro wstawia świeży #kurtyna do body —
-  // astro:after-swap odpala się synchronicznie zaraz po podmianie DOM,
-  // więc k.remove() działa przed pierwszym renderem nowej klatki.
   document.addEventListener('astro:after-swap', inicjalizuj);
 </script>

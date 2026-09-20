@@ -1,0 +1,41 @@
+---
+const cookieText = 'Ta strona używa plików cookie do poprawy działania, analityki i wygody użytkowania.';
+---
+
+<div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-[100] hidden border-t border-white/10 bg-[#07121d]/95 px-4 py-4 backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <p class="max-w-2xl text-sm leading-relaxed text-anthracite">
+      {cookieText}
+      <a href="/umowa" class="text-terracotta underline decoration-terracotta/70 underline-offset-4">
+        Regulamin i polityka
+      </a>.
+    </p>
+    <button
+      type="button"
+      id="cookie-accept"
+      class="btn-primary w-full md:w-auto"
+    >
+      Akceptuję
+    </button>
+  </div>
+</div>
+
+<script>
+  const cookieKey = 'axiom-cookie-banner-accepted';
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('cookie-accept');
+
+  const showBanner = () => {
+    if (!banner) return;
+    const accepted = localStorage.getItem(cookieKey);
+    if (!accepted) banner.classList.remove('hidden');
+  };
+
+  acceptBtn?.addEventListener('click', () => {
+    localStorage.setItem(cookieKey, '1');
+    banner?.classList.add('hidden');
+  });
+
+  showBanner();
+  document.addEventListener('astro:page-load', showBanner);
+</script>

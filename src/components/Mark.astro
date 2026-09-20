@@ -6,11 +6,18 @@ const { class: className = 'h-6 w-6' } = Astro.props;
 ---
 
 <svg
-  viewBox="0 0 48 48"
+  viewBox="0 0 64 64"
   xmlns="http://www.w3.org/2000/svg"
   class={className}
   aria-hidden="true"
 >
-  <rect x="7" y="7" width="26" height="26" fill="#1C1B1A" class="signum-pars signum-pars--prima" />
-  <rect x="15" y="15" width="26" height="26" fill="#C9764A" opacity="0.88" class="signum-pars signum-pars--secunda" />
+  <defs>
+    <linearGradient id="axiom-mark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6EE7FF" />
+      <stop offset="100%" stop-color="#8AA9FF" />
+    </linearGradient>
+  </defs>
+  <rect x="7" y="7" width="32" height="32" rx="10" fill="rgba(110,231,255,0.12)" class="signum-pars signum-pars--prima" />
+  <rect x="25" y="25" width="32" height="32" rx="10" fill="url(#axiom-mark)" class="signum-pars signum-pars--secunda" />
+  <path d="M18 42L30 18H38L26 42H18Z" fill="#EAF5FF" opacity="0.96" />
 </svg>

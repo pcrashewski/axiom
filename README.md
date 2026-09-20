@@ -1,4 +1,4 @@
-# Opifex — strona portfolio
+# Axiom — strona portfolio
 
 Strona portfolio/wizytówka, zbudowana na Astro 4 + Tailwind CSS, gotowa do hostowania
 na Cloudflare Pages.
@@ -43,11 +43,11 @@ dostaje własny **preview URL** — to jest adres podglądowy wspomniany w sekcj
 
 ## Zanim opublikujesz — lista rzeczy do podmiany
 
-- **Domena:** w `astro.config.mjs` podmień `site: 'https://opifex.pl'` na rzeczywistą
+- **Domena:** w `astro.config.mjs` podmień `site: 'https://axiom.pl'` na rzeczywistą
   domenę (wpływa na `sitemap.xml` i tagi OG).
 - **Realizacje:** w `src/components/Portfolio.astro` placeholdery `SiteMockup` zastąp
   realnymi screenshotami (np. `<img>` w `src/assets` + `astro:assets`).
-- **Umowa:** dodaj plik `public/umowa-opifex.pdf` — link na `/umowa` już na niego wskazuje.
+- **Umowa:** dodaj plik `public/umowa-axiom.pdf` — link na `/umowa` już na niego wskazuje.
 - **Dane kontaktowe / treści:** sprawdź teksty w `src/components/*.astro` — cennik,
   opisy realizacji i proces są oparte na ustaleniach z briefu, ale warto przejrzeć
   przed publikacją.

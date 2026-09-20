@@ -10,58 +10,48 @@ const navLinks = [
 ];
 ---
 
-<header class="hairline-b sticky top-0 z-50 bg-cream/90 backdrop-blur-sm">
-  <div class="mx-auto max-w-6xl px-6 py-6 flex items-start justify-between gap-6">
+<header class="sticky top-0 z-50 border-b border-white/10 bg-[#07121d]/80 backdrop-blur-xl">
+  <div class="mx-auto flex max-w-6xl items-start justify-between gap-6 px-6 py-5">
     <a href="/" class="group flex items-center gap-3">
-      <Mark class="h-8 w-8 sm:h-9 sm:w-9 shrink-0" />
+      <Mark class="h-8 w-8 shrink-0 sm:h-9 sm:w-9" />
       <div>
-        <span class="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-anthracite">
-          Opifex
+        <span class="text-2xl font-semibold tracking-[-0.06em] text-anthracite sm:text-3xl">
+          Axiom
         </span>
-        <p class="mt-1 font-sans text-[11px] sm:text-xs text-warm-gray/60 leading-snug max-w-xs">
-          Opifex <span class="whitespace-nowrap">[ˈɔ.pi.fɛks]</span>, łac. <em>opifex, opificis</em>
-          — rzemieślnik, twórca, mistrz wykonania
+        <p class="mt-1 max-w-xs text-[10px] leading-snug text-warm-gray sm:text-xs">
+          Web systems · product polish · delivery
         </p>
       </div>
     </a>
 
-    <!-- Nawigacja: desktop -->
-    <nav class="hidden md:flex items-center gap-8 pt-2" aria-label="Nawigacja główna">
+    <nav class="hidden items-center gap-8 pt-2 md:flex" aria-label="Nawigacja główna">
       {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class="eyebrow hover:text-terracotta transition-colors duration-200"
-        >
+        <a href={link.href} class="eyebrow transition-colors duration-200 hover:text-terracotta">
           {link.label}
         </a>
       ))}
-      <a
-        href="/umowa"
-        class="eyebrow hover:text-terracotta transition-colors duration-200"
-      >
+      <a href="/umowa" class="eyebrow transition-colors duration-200 hover:text-terracotta">
         Umowa
       </a>
     </nav>
 
-    <!-- Nawigacja: mobile -->
-    <details class="md:hidden relative">
+    <details class="relative md:hidden">
       <summary
-        class="list-none cursor-pointer flex items-center gap-2 eyebrow pt-2 [&::-webkit-details-marker]:hidden"
+        class="list-none cursor-pointer pt-2 text-[11px] uppercase tracking-[0.2em] text-anthracite [&::-webkit-details-marker]:hidden"
         aria-label="Otwórz menu"
       >
-        <Mark class="h-5 w-5" />
-        Menu
+        <span class="inline-flex items-center gap-2">
+          <Mark class="h-5 w-5" />
+          Menu
+        </span>
       </summary>
-      <nav
-        class="absolute right-0 mt-3 w-48 bg-cream border border-warm-gray/25 px-5 py-4 flex flex-col gap-3 z-10"
-        aria-label="Nawigacja mobilna"
-      >
+      <nav class="absolute right-0 z-10 mt-3 w-48 border border-white/10 bg-[#081827] px-5 py-4 shadow-[0_20px_40px_rgba(5,11,22,0.8)]">
         {navLinks.map((link) => (
-          <a href={link.href} class="eyebrow hover:text-terracotta transition-colors duration-200">
+          <a href={link.href} class="eyebrow block py-2 transition-colors duration-200 hover:text-terracotta">
             {link.label}
           </a>
         ))}
-        <a href="/umowa" class="eyebrow hover:text-terracotta transition-colors duration-200">
+        <a href="/umowa" class="eyebrow block py-2 transition-colors duration-200 hover:text-terracotta">
           Umowa
         </a>
       </nav>

@@ -4,14 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        anthracite: '#1C1B1A',
-        cream: '#F7F2E9',
-        terracotta: '#C9764A',
-        ochre: '#C9A227',
-        'warm-gray': '#8C8479',
+        anthracite: '#EAF5FF',
+        cream: '#050B16',
+        terracotta: '#6EE7FF',
+        ochre: '#8AA9FF',
+        'warm-gray': '#9DB0C7',
       },
       fontFamily: {
-        display: ['Fraunces', 'serif'],
+        display: ['"Segoe UI"', '"Work Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         sans: ['"Work Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {

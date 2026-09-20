@@ -4,20 +4,20 @@ import GlosaText from './GlosaText.astro';
 const year = new Date().getFullYear();
 ---
 
-<footer class="hairline mt-16">
-  <div class="mx-auto max-w-6xl px-6 py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+<footer class="mt-16 border-t border-white/10">
+  <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
     <div class="flex items-center gap-3 text-warm-gray">
       <Mark class="h-5 w-5" />
-      <span class="font-display text-lg text-anthracite">Opifex</span>
+      <span class="text-lg font-semibold tracking-[-0.04em] text-anthracite">Axiom</span>
     </div>
 
-    <p class="font-sans text-sm text-warm-gray">
-      &copy; {year} Opifex. Strony budowane na{' '}
+    <p class="text-sm text-warm-gray">
+      &copy; {year} Axiom. Strony budowane na{' '}
       <GlosaText parts={[{ term: 'Astro', key: 'Astro' }]} />, hostowane na{' '}
       <GlosaText parts={[{ term: 'Cloudflare Pages', key: 'Cloudflare Pages' }]} />.
     </p>
 
-    <a href="/umowa" class="eyebrow hover:text-terracotta transition-colors duration-200">
+    <a href="/umowa" class="eyebrow transition-colors duration-200 hover:text-terracotta">
       Warunki współpracy
     </a>
   </div>
